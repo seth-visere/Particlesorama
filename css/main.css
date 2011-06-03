@@ -2,12 +2,13 @@
 	border:1px solid black;
     position: absolute;
     top: 0px;
+    display:none;
 }
 
 #canvas2_wr {
 	border:1px solid black;
     position: absolute;
-    top: 545px;
+    top: 0px;
 	width:300px;
 	height:200px;
 }
@@ -17,6 +18,7 @@
     position: absolute;
     left: 750px;
     top: 0px;
+    display:none;
 }
 
 #image2 {
@@ -24,4 +26,5 @@
     position: absolute;
     left: 750px;
     top: 545px;
+    display:none;
 }

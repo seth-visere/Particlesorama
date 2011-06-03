@@ -73,45 +73,13 @@ function init() {
 
 	}
 
-	var resolution = 4;
+	var resolution = 6;
 
 	var particles = new THREE.Geometry();
 	
 	for ( var dy = 0; dy < image1Values.height; dy += resolution) {
 		for ( var dx = 0; dx < image1Values.width; dx += resolution) {
 
-//			material = new THREE.ParticleBasicMaterial({
-//				color : 0xffff00,
-//				program : program
-//			});
-//
-//			material.color.r = image1Values.data[offset] / 255;
-//			material.color.g = image1Values.data[offset + 1] / 255;
-//			material.color.b = image1Values.data[offset + 2] / 255;
-//			material.opacity = image1Values.data[offset + 3] / 255;
-//			material.color.updateStyleString();
-//
-//			particle = new THREE.Vertex(material);
-//			particle.position.x = dx - image1Values.width / 2;
-//			particle.position.y = image1Values.height / 2 - dy;
-//			particle.position.z = 0;
-//			particle.scale.x = particle.scale.y = resolution;
-			// particle.materials[0].color.autoUpdate = true;
-
-//			tweens.addChild(new ColorTween(particle.materials[0].color, "hex", Tween.regularEaseIn, material.color,  3);)
-			
-			
-//			tweens.push(new TWEEN.Tween( particle.materials[0].color ) .to(
-//			{r:image2Values.data[offset]/255,
-//			g:image2Values.data[offset+1]/255,
-//			b:image2Values.data[offset+2]/255}, 5000 )
-//			.onUpdate(particle.materials[0].color.updateStyleString)
-//			); 
-//
-//			tweens.push(new TWEEN.Tween( particle.materials[0] ) .to(
-//			{opacity:image2Values.data[offset+3]/255}, 5000 )
-//			.onUpdate(particle.materials[0].color.updateStyleString)
-//			);
 
 			
 			offset = dy * image1Values.width * 4 + dx * 4;
@@ -133,19 +101,37 @@ function init() {
 			var colorTween = new TWEEN.Tween(color).to({
 				r:image2Values.data[offset]/255,
 				g:image2Values.data[offset+1]/255,
-				b:image2Values.data[offset+2]/255}, 2000);
+				b:image2Values.data[offset+2]/255}, 1000)
+				.delay(1000);
 			tweens.push(colorTween);
 
 
-			var reverseTween = new TWEEN.Tween(particle.position).to({x:pX,y:pY,z:pZ}, 1000);
-			var forwardTween = new TWEEN.Tween(particle.position).to({
-				x:Math.random()*1000-500,
-				y:Math.random()*1000-500,
-				z:Math.random()*1000-500}, 1000);
-			forwardTween.chain(reverseTween); 
+			var position3Tween = new TWEEN.Tween(particle.position).to({x:pX,y:pY,z:pZ}, 1000);
+
+			var position2Tween = new TWEEN.Tween(particle.position).to({
+				x:image2Values.data[offset]/255*500-250,
+				y:image2Values.data[offset+1]/255*500-250,
+				z:image2Values.data[offset+2]/255*500-250}, 1000);
+			
+			position2Tween.chain(position3Tween);
+
+			var position1Tween = new TWEEN.Tween(particle.position).to({
+				x:image1Values.data[offset]/255*500-250,
+				y:image1Values.data[offset+1]/255*500-250,
+				z:image1Values.data[offset+2]/255*500-250}, 1000);
+
+			position1Tween.chain(position2Tween);
+			
+//			var forwardTween = new TWEEN.Tween(particle.position).to({
+//				x:Math.random()*1000-500,
+//				y:Math.random()*1000-500,
+//				z:Math.random()*1000-500}, 1000);
+			
+
 //			.onComplete(returnToOrigin(pX,pY,pZ));
 			
-			tweens.push(forwardTween);
+			tweens.push(position1Tween);
+			tweens.push(colorTween);
 
 		}
 	}
@@ -153,8 +139,7 @@ function init() {
 	var pMaterial = new THREE.ParticleBasicMaterial({
 		size:resolution*16,
 		vertexColors: true,
-		blending: THREE.AdditiveBlending,
-		map: THREE.ImageUtils.loadTexture("images/sprite.png")
+		blending: THREE.AdditiveBlending
 	});
 
 	
@@ -176,7 +161,7 @@ function init() {
 
 //	scene.addObject(sphere);
 	
-	var light = new THREE.DirectionalLight(0xffffff);
+	var light = new THREE.PointLight(0xffffff);
 	light.position.x = 0;
 	light.position.y = 0;
 	light.position.z = 1;
