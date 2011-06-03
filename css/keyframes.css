@@ -1,0 +1,17 @@
+@-webkit-keyframes 'spin'{
+	from {
+	}
+	to {
+		-webkit-transform: rotateY(360deg) rotateX(720deg) rotateZ(720deg);
+	}
+}
+
+@-webkit-keyframes 'slide'{
+	from {
+	
+	}
+
+	to {
+		top: 300px;
+		}
+}
