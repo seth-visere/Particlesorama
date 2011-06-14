@@ -1,3 +1,6 @@
+#debug{
+float:right;	}
+
 #canvas1_wr {
 	border:1px solid black;
     position: absolute;
@@ -9,8 +12,8 @@
 	border:1px solid black;
     position: absolute;
     top: 0px;
-	width:300px;
-	height:200px;
+	width:640px;
+	height:480px;
 }
 
 #image1 {
