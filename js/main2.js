@@ -28,10 +28,11 @@ function startTweens() {
 function init() {
 
 	var gui = new DAT.GUI();
-	window.firework = {exploded:false,r:255,g:255,b:255};
+	window.firework = {exploded:false,r:255,g:255,b:255,fire:function(){spawn($.extend(true, {}, this));}};
 	gui.add(firework,"r",0,255,1);
 	gui.add(firework,"g",0,255,1);
 	gui.add(firework,"b",0,255,1);
+	gui.add(firework,"fire").name("Fire!");
 	
 	container = $("#canvas2_wr");
 
@@ -127,7 +128,7 @@ function spawn(firework){
 		});
 
 	particleSystem.position.x = 0;
-	particleSystem.position.y = -500;
+	particleSystem.position.y = -320;
 	particleSystem.position.z = 0;
 	new TWEEN.Tween(particleSystem.position).to({x:Math.random()*800-400, y:Math.random()*400-100, z: Math.random()*100-50}, 2000).easing(TWEEN.Easing.Sinusoidal.EaseIn).onComplete($.proxy(function(){this.firework.exploded=true;},particleSystem)).start().chain(fadeTween);
 	
