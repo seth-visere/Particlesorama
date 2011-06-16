@@ -1,0 +1,12 @@
+[submodule "js/underscore"]
+	path = js/underscore
+	url = https://github.com/documentcloud/underscore.git
+[submodule "js/tween.js"]
+	path = js/tween.js
+	url = https://github.com/sole/tween.js.git
+[submodule "js/three.js"]
+	path = js/three.js
+	url = https://github.com/mrdoob/three.js.git
+[submodule "js/dat.gui"]
+	path = js/dat.gui
+	url = git@github.com:seth-visere/dat.gui.git
