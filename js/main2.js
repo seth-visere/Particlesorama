@@ -27,6 +27,12 @@ function startTweens() {
 
 function init() {
 
+	var gui = new DAT.GUI();
+	window.firework = {exploded:false,r:255,g:255,b:255};
+	gui.add(firework,"r",0,255,1);
+	gui.add(firework,"g",0,255,1);
+	gui.add(firework,"b",0,255,1);
+	
 	container = $("#canvas2_wr");
 
 	camera = new THREE.Camera(10, container.width() / container.height(), 1,
@@ -95,17 +101,8 @@ function init() {
 	container.html(renderer.domElement);
 }
 
-function returnToOrigin(pX, pY, pZ) {
-	return function() {
-		new TWEEN.Tween(this).to({
-			x : pX,
-			y : pY,
-			z : pZ
-		}, 1000).start();
-	}
-}
 
-function spawn(){
+function spawn(firework){
 	var particles = new THREE.Geometry();
 
 	for(var i=0;i<Math.PI;i+=Math.PI/20){
@@ -115,21 +112,26 @@ function spawn(){
 			particles.vertices.push(particle);
 		}
 	}
-	var color = ((Math.random()/4+0.75)*0xffffff<<0).toString(16);
+//	var color = ((Math.random()/4+0.75)*0xffffff<<0).toString(16);
 	var pMaterial = new THREE.ParticleBasicMaterial({
-		color:"0x" + color,
+//		color:"0x" + color,
 //		color:"0xffff00",
 		size:15,
 		blending : THREE.AdditiveBlending
 	});
+	pMaterial.color.setRGB(firework.r/255,firework.g/255,firework.b/255);
 	var particleSystem = new THREE.ParticleSystem(particles, pMaterial);
-	particleSystem.position.x = Math.random()*800-400;
-	particleSystem.position.y = Math.random()*400-100;
-	particleSystem.position.z = Math.random()*100-50;
-	new TWEEN.Tween(pMaterial).to({opacity : 0.0}, 5000).onComplete(function(){
+	var fadeTween = new TWEEN.Tween(pMaterial).to({opacity : 0.0}, 5000).onComplete(function(){
 		var oldSystem = systems.pop();
 		scene.removeObject(oldSystem);
-		}).start();
+		});
+
+	particleSystem.position.x = 0;
+	particleSystem.position.y = -500;
+	particleSystem.position.z = 0;
+	new TWEEN.Tween(particleSystem.position).to({x:Math.random()*800-400, y:Math.random()*400-100, z: Math.random()*100-50}, 2000).easing(TWEEN.Easing.Sinusoidal.EaseIn).onComplete($.proxy(function(){this.firework.exploded=true;},particleSystem)).start().chain(fadeTween);
+	
+	particleSystem.firework = firework;
 	
 	systems.unshift(particleSystem);
 
@@ -149,11 +151,15 @@ function animate() {
 	TWEEN.update();
 
 	for(var i=0;i<systems.length;i++){
-		for(var j=0;j<systems[i].geometry.vertices.length;j++){
-			systems[i].geometry.vertices[j].position.x += systems[i].geometry.vertices[j].velocity.x*2+2*Math.random()-0.5; 
-			systems[i].geometry.vertices[j].position.y += systems[i].geometry.vertices[j].velocity.y*2+2*Math.random()-0.5; 
-			systems[i].geometry.vertices[j].position.z += systems[i].geometry.vertices[j].velocity.z*2+2*Math.random()-0.5; 
-			systems[i].geometry.vertices[j].velocity.y -= 0.01; 
+		if(systems[i].firework.exploded){
+			for(var j=0;j<systems[i].geometry.vertices.length;j++){
+				systems[i].geometry.vertices[j].position.x += 2*(systems[i].geometry.vertices[j].velocity.x+Math.random()-0.25); 
+				systems[i].geometry.vertices[j].position.y += 2*(systems[i].geometry.vertices[j].velocity.y+Math.random()-0.25); 
+				systems[i].geometry.vertices[j].position.z += 2*(systems[i].geometry.vertices[j].velocity.z+Math.random()-0.25); 
+				systems[i].geometry.vertices[j].velocity.y -= 0.01; 
+			}
+		}else{
+			//throw off some rocket trails
 		}
 		systems[i].geometry.__dirtyVertices = true;
 		systems[i].geometry.__dirtyColors = true;
