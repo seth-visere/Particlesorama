@@ -28,7 +28,7 @@ function startTweens() {
 function init() {
 
 	var gui = new DAT.GUI();
-	window.firework = {exploded:false,r:255,g:255,b:255,fire:function(){spawn($.extend(true, {}, this));}};
+	window.firework = {exploded:false,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,fire:function(){spawn($.extend(true, {xf:Math.random()*800-400, yf:Math.random()*400-100, zf: Math.random()*100-50}, this));}};
 	gui.add(firework,"r",0,255,1);
 	gui.add(firework,"g",0,255,1);
 	gui.add(firework,"b",0,255,1);
@@ -127,10 +127,22 @@ function spawn(firework){
 		scene.removeObject(oldSystem);
 		});
 
-	particleSystem.position.x = 0;
-	particleSystem.position.y = -320;
-	particleSystem.position.z = 0;
-	new TWEEN.Tween(particleSystem.position).to({x:Math.random()*800-400, y:Math.random()*400-100, z: Math.random()*100-50}, 2000).easing(TWEEN.Easing.Sinusoidal.EaseIn).onComplete($.proxy(function(){this.firework.exploded=true;},particleSystem)).start().chain(fadeTween);
+	particleSystem.position.x = firework.xi;
+	particleSystem.position.y = firework.yi;
+	particleSystem.position.z = firework.zi;
+	new TWEEN.Tween(particleSystem.position)
+		.to({x:firework.xf,y:firework.yf,z:firework.zf}, firework.fuse)
+		.easing(TWEEN.Easing.Sinusoidal.EaseIn)
+		.onComplete($.proxy(function(){
+				this.firework.exploded=true;
+				if(firework.xi == 0){
+					spawn({exploded:false,fuse:1000,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos(0/360*Math.PI*2)*100, yf:firework.yf+Math.sin(0/360*Math.PI*2)*100, zf: firework.zf});
+					spawn({exploded:false,fuse:1000,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos(120/360*Math.PI*2)*100, yf:firework.yf+Math.sin(120/360*Math.PI*2)*100, zf: firework.zf});
+					spawn({exploded:false,fuse:1000,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos(240/360*Math.PI*2)*100, yf:firework.yf+Math.sin(240/360*Math.PI*2)*100, zf: firework.zf});
+				}
+			},particleSystem))
+		.start()
+		.chain(fadeTween);
 	
 	particleSystem.firework = firework;
 	
