@@ -136,9 +136,11 @@ function spawn(firework){
 		.onComplete($.proxy(function(){
 				this.firework.exploded=true;
 				if(firework.xi == 0){
-					spawn({exploded:false,fuse:1000,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos(0/360*Math.PI*2)*100, yf:firework.yf+Math.sin(0/360*Math.PI*2)*100, zf: firework.zf});
-					spawn({exploded:false,fuse:1000,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos(120/360*Math.PI*2)*100, yf:firework.yf+Math.sin(120/360*Math.PI*2)*100, zf: firework.zf});
-					spawn({exploded:false,fuse:1000,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos(240/360*Math.PI*2)*100, yf:firework.yf+Math.sin(240/360*Math.PI*2)*100, zf: firework.zf});
+					var rotation = Math.random()*360;
+					var fuseOffset = Math.random()*200;
+					spawn({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos((0+rotation)/360*Math.PI*2)*100, yf:firework.yf+Math.sin((0+rotation)/360*Math.PI*2)*100, zf: firework.zf});
+					spawn({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos((120+rotation)/360*Math.PI*2)*100, yf:firework.yf+Math.sin((120+rotation)/360*Math.PI*2)*100, zf: firework.zf});
+					spawn({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos((240+rotation)/360*Math.PI*2)*100, yf:firework.yf+Math.sin((240+rotation)/360*Math.PI*2)*100, zf: firework.zf});
 				}
 			},particleSystem))
 		.start()
