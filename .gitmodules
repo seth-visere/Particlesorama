@@ -10,3 +10,9 @@
 [submodule "js/dat.gui"]
 	path = js/dat.gui
 	url = git@github.com:seth-visere/dat.gui.git
+[submodule "js/backbone"]
+	path = js/backbone
+	url = https://github.com/documentcloud/backbone.git
+[submodule "js/JSON-js"]
+	path = js/JSON-js
+	url = https://github.com/douglascrockford/JSON-js.git

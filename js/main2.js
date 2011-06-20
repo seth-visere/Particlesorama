@@ -25,9 +25,26 @@ function startTweens() {
 	});
 }
 
+var foo;
 function init() {
 
+	$.post("http://localhost:7411/api", {json: "{foo:bar}"}, function(data){});
+	$.ajax("http://localhost:7411/api", {
+		data: {q: "b80755bb506271450f6e0f44e0cd6bdd3e592f09"},
+		statusCode: {
+			200: function(data){
+//				alert(data.responseText);
+			},
+			404: function(){
+				alert("Error");
+			}
+		}
+	});
+
+	
 	var gui = new DAT.GUI();
+	foo = new Firework();
+	foo.get("spawns").add({xf:100});
 	window.firework = {exploded:false,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,fire:function(){spawn($.extend(true, {xf:Math.random()*800-400, yf:Math.random()*400-100, zf: Math.random()*100-50}, this));}};
 	gui.add(firework,"r",0,255,1);
 	gui.add(firework,"g",0,255,1);
