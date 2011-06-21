@@ -1,21 +1,35 @@
-#debug{
-float:right;	}
-
-#canvas_wr {
-	border:1px solid black;
-    position: absolute;
-    top: 0px;
-	width:720px;
-	height:480px;
+#debug {
+	float: right;
 }
 
-#showQueue{
-overflow-y: auto;
-width:200px;
-height:600px;
-position:fixed;
-left:750px;
-top:0px;
-border: 1px solid black;
-margin:0px;
+#canvas_wr {
+	border: 1px solid black;
+	position: absolute;
+	top: 0px;
+	width: 720px;
+	height: 480px;
+}
+
+#showQueue {
+	overflow-y: auto;
+	width: 300px;
+	height: 600px;
+	position: fixed;
+	left: 750px;
+	top: 0px;
+	border: 1px solid black;
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+
+#showQueue>li {
+	padding: 0px;
+	margin: 0px;
+}
+
+.guidat {
+	padding: 0px;
+	margin: 0px;
+	position:relative;
 }

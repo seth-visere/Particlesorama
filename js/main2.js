@@ -6,6 +6,7 @@ var image1Values;
 $(function() {
 	if (!Detector.webgl)
 		Detector.addGetWebGLMessage();
+	DAT.GUI.autoPlace = false;
 	loadFireworksTest();
 });
 
@@ -25,15 +26,15 @@ function startTweens() {
 	});
 }
 
-var foo;
+var fireworksShow;
 function init() {
 
-	$.post("http://localhost:7411/api", {json: "{foo:bar}"}, function(data){});
+	$.post("http://localhost:7411/api", {json: "{foo:bar}"}, function(data){console.log(data);});
 	$.ajax("http://localhost:7411/api", {
 		data: {q: "b80755bb506271450f6e0f44e0cd6bdd3e592f09"},
 		statusCode: {
 			200: function(data){
-//				alert(data.responseText);
+				console.log(data.responseText);
 			},
 			404: function(){
 				alert("Error");
@@ -41,15 +42,13 @@ function init() {
 		}
 	});
 
+	fireworksShow = new FireworksShow();
+//	fireworksShow.queue.add(new Firework())
 	
-	var gui = new DAT.GUI();
-	foo = new Firework();
-	foo.get("spawns").add({xf:100});
-	window.firework = {exploded:false,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,fire:function(){spawn($.extend(true, {xf:Math.random()*800-400, yf:Math.random()*400-100, zf: Math.random()*100-50}, this));}};
-	gui.add(firework,"r",0,255,1);
-	gui.add(firework,"g",0,255,1);
-	gui.add(firework,"b",0,255,1);
-	gui.add(firework,"fire").name("Fire!");
+//	foo = new Firework();
+//	foo.get("spawns").add({xf:100});
+//	window.firework = new Firework();
+
 	
 	container = $("#canvas_wr");
 
@@ -123,8 +122,8 @@ function init() {
 function spawn(firework){
 	var particles = new THREE.Geometry();
 
-	for(var i=0;i<Math.PI;i+=Math.PI/20){
-		for(var j=0;j<2*Math.PI;j+=2*Math.PI/40){
+	for(var i=0;i<Math.PI;i+=Math.PI/firework.get("zrings")){
+		for(var j=0;j<2*Math.PI;j+=2*Math.PI/firework.get("xrings")){
 			var particle = new THREE.Vertex(new THREE.Vector3(0, 0, 0));
 			particle.velocity = new THREE.Vector3(Math.sin(i)*Math.cos(j), Math.sin(i)*Math.sin(j), Math.cos(i));
 			particles.vertices.push(particle);
@@ -137,27 +136,27 @@ function spawn(firework){
 		size:15,
 		blending : THREE.AdditiveBlending
 	});
-	pMaterial.color.setRGB(firework.r/255,firework.g/255,firework.b/255);
+	pMaterial.color.setRGB(firework.get("r")/255,firework.get("g")/255,firework.get("b")/255);
 	var particleSystem = new THREE.ParticleSystem(particles, pMaterial);
 	var fadeTween = new TWEEN.Tween(pMaterial).to({opacity : 0.0}, 5000).onComplete(function(){
 		var oldSystem = systems.pop();
 		scene.removeObject(oldSystem);
 		});
 
-	particleSystem.position.x = firework.xi;
-	particleSystem.position.y = firework.yi;
-	particleSystem.position.z = firework.zi;
+	particleSystem.position.x = firework.get("xi");
+	particleSystem.position.y = firework.get("yi");
+	particleSystem.position.z = firework.get("zi");
 	new TWEEN.Tween(particleSystem.position)
-		.to({x:firework.xf,y:firework.yf,z:firework.zf}, firework.fuse)
+		.to({x:firework.get("xf"),y:firework.get("yf"),z:firework.get("zf")}, firework.get("fuse"))
 		.easing(TWEEN.Easing.Sinusoidal.EaseIn)
 		.onComplete($.proxy(function(){
-				this.firework.exploded=true;
-				if(firework.xi == 0){
+				this.firework.set({exploded:true});
+				if(firework.get("xi") == 0){
 					var rotation = Math.random()*360;
 					var fuseOffset = Math.random()*200;
-					spawn({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos((0+rotation)/360*Math.PI*2)*100, yf:firework.yf+Math.sin((0+rotation)/360*Math.PI*2)*100, zf: firework.zf});
-					spawn({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos((120+rotation)/360*Math.PI*2)*100, yf:firework.yf+Math.sin((120+rotation)/360*Math.PI*2)*100, zf: firework.zf});
-					spawn({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.xf,yi:firework.yf,zi:firework.zf,xf:firework.xf+Math.cos((240+rotation)/360*Math.PI*2)*100, yf:firework.yf+Math.sin((240+rotation)/360*Math.PI*2)*100, zf: firework.zf});
+					spawn(new Firework({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.get("xf"),yi:firework.get("yf"),zi:firework.get("zf"),xf:firework.get("xf")+Math.cos((0+rotation)/360*Math.PI*2)*100, yf:firework.get("yf")+Math.sin((0+rotation)/360*Math.PI*2)*100, zf: firework.get("zf")}));
+					spawn(new Firework({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.get("xf"),yi:firework.get("yf"),zi:firework.get("zf"),xf:firework.get("xf")+Math.cos((120+rotation)/360*Math.PI*2)*100, yf:firework.get("yf")+Math.sin((120+rotation)/360*Math.PI*2)*100, zf: firework.get("zf")}));
+					spawn(new Firework({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.get("xf"),yi:firework.get("yf"),zi:firework.get("zf"),xf:firework.get("xf")+Math.cos((240+rotation)/360*Math.PI*2)*100, yf:firework.get("yf")+Math.sin((240+rotation)/360*Math.PI*2)*100, zf: firework.get("zf")}));
 				}
 			},particleSystem))
 		.start()
@@ -183,7 +182,7 @@ function animate() {
 	TWEEN.update();
 
 	for(var i=0;i<systems.length;i++){
-		if(systems[i].firework.exploded){
+		if(systems[i].firework.get("exploded")){
 			for(var j=0;j<systems[i].geometry.vertices.length;j++){
 				systems[i].geometry.vertices[j].position.x += 2*(systems[i].geometry.vertices[j].velocity.x+Math.random()-0.25); 
 				systems[i].geometry.vertices[j].position.y += 2*(systems[i].geometry.vertices[j].velocity.y+Math.random()-0.25); 

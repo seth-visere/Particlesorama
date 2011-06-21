@@ -45,14 +45,16 @@ var httpServer = http.createServer(function(req, res) {
 					console.log(data.json);
 					console.log(hash);
 					redisClient.set(hash, data.json, function(error, reply) {
+						console.log("Redis response: " + reply);
 						res.writeHead(200, {
-							'Content-Type' : 'text/json',
+							'Content-Type' : 'text/plain',
 							'Access-Control-Allow-Origin' : 'http://localhost',
 							'Access-Control-Allow-Headers' : 'x-requested-with'
 						});
 						res.end(reply);
 					});
 				} else {
+					console.log("Empty POST data");
 					res.writeHead(200, {
 						'Content-Type' : 'text/json',
 						'Access-Control-Allow-Origin' : 'http://localhost',
@@ -63,7 +65,7 @@ var httpServer = http.createServer(function(req, res) {
 			});
 			break;
 		default:
-			console.log(req);
+			console.log("Unknown method " + req.method);
 			res.writeHead(500, {
 				'Content-Type' : 'text/plain',
 				'Access-Control-Allow-Origin' : 'http://localhost',
