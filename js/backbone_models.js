@@ -1,12 +1,13 @@
 var Firework = Backbone.Model.extend({
-	defaults: {exploded:false,delay:0,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,xrings:10,zrings:10},
+	defaults: {exploded:false,delay:0,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,xf:Math.random()*800-400, yf:Math.random()*400-100, zf: Math.random()*100-50,xrings:10,zrings:10},
 
 	initialize: function(){
+		_.bindAll(this, "fire");
 		this.set({spawns: new Fireworks([])});
 	},
 	
-	fire: function(){
-		spawn($.extend(true, new Firework({xf:Math.random()*800-400, yf:Math.random()*400-100, zf: Math.random()*100-50}), this));
+	fire: function(){		
+		spawn($.extend(true, {}, this));
 	},
 
 	toJSON: function(){
@@ -30,6 +31,9 @@ var FireworkControl = Backbone.View.extend({
 			this.gui.add(this.model,"r",0,255,1);
 			this.gui.add(this.model,"g",0,255,1);
 			this.gui.add(this.model,"b",0,255,1);
+			this.gui.add(this.model,"xf",-400,400,1);
+			this.gui.add(this.model,"yf",-400,400,1);
+			this.gui.add(this.model,"zf",-100,100,1);
 			this.gui.add(this.model,"xrings",1,100,1);
 			this.gui.add(this.model,"zrings",1,100,1);
 			this.gui.add(this.model,"fire").name("Fire!");
