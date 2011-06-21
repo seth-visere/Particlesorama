@@ -14,8 +14,8 @@ var Firework = Backbone.Model.extend({
 	}
 });
 
-var FireworkControls = Backbone.View.extend({
-	el: ".fireworkControl"
+var FireworkControl = Backbone.View.extend({
+	el: "li.fireworkControl"
 });
 
 var Fireworks = Backbone.Collection.extend({
@@ -23,14 +23,21 @@ var Fireworks = Backbone.Collection.extend({
 });
 
 var FireworksShow = Backbone.View.extend({
-	el: "#fireworks",
+	el: "#fireworksShow",
 	
 	initialize: function(){
+		_.bindAll(this, "addOne");
 		this.set({queue: new Fireworks()});
+		this.get("queue").bind("add", this.addOne);
 	},
 	
 	render: function(){
 		
+	},
+	
+	addOne: function(firework){
+		var view = new FireworkControl({model: firework});
+		this.$("#showQueue").append(view.render().el);
 	}
 
 });

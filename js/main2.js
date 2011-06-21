@@ -51,7 +51,7 @@ function init() {
 	gui.add(firework,"b",0,255,1);
 	gui.add(firework,"fire").name("Fire!");
 	
-	container = $("#canvas2_wr");
+	container = $("#canvas_wr");
 
 	camera = new THREE.Camera(10, container.width() / container.height(), 1,
 			5000);
