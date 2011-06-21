@@ -1,5 +1,5 @@
 var Firework = Backbone.Model.extend({
-	defaults: {exploded:false,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,xrings:10,zrings:10},
+	defaults: {exploded:false,delay:0,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,xrings:10,zrings:10},
 
 	initialize: function(){
 		this.set({spawns: new Fireworks([])});
@@ -26,12 +26,14 @@ var FireworkControl = Backbone.View.extend({
 	render: function(){
 		if(this.$(".guidat").length == 0){
 			$(this.el).append(this.gui.domElement);
+			this.gui.add(this.model,"delay",0,10000,1);
 			this.gui.add(this.model,"r",0,255,1);
 			this.gui.add(this.model,"g",0,255,1);
 			this.gui.add(this.model,"b",0,255,1);
 			this.gui.add(this.model,"xrings",1,100,1);
 			this.gui.add(this.model,"zrings",1,100,1);
 			this.gui.add(this.model,"fire").name("Fire!");
+			this.gui.open(); //Set correct height
 		}
 		return this;
 	}
@@ -46,11 +48,12 @@ var FireworksShow = Backbone.View.extend({
 	
 	initialize: function(){
 		this.el = $("#fireworksShow");
-		_.bindAll(this, "addOne");
+		_.bindAll(this, "addOne", "startShow");
 		this.queue = new Fireworks();
 		this.queue.bind("add", this.addOne);
 		this.queue.add(new Firework());
 		this.queue.add(new Firework());
+		this.$("#startShow").live("click", this.startShow);
 	},
 	
 	render: function(){
@@ -62,6 +65,14 @@ var FireworksShow = Backbone.View.extend({
 		this.$("#showQueue").append(view.el);
 		//We have to call render after it's appended to let DAT GUI get its height set
 		view.render();
+	},
+	
+	startShow: function(){
+		var delay = 0;
+		this.queue.forEach(function(firework){
+			delay += firework.get("delay");
+			setTimeout(firework.fire, delay);
+		});
 	}
 
 });

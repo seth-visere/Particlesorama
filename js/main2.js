@@ -29,18 +29,18 @@ function startTweens() {
 var fireworksShow;
 function init() {
 
-	$.post("http://localhost:7411/api", {json: "{foo:bar}"}, function(data){console.log(data);});
-	$.ajax("http://localhost:7411/api", {
-		data: {q: "b80755bb506271450f6e0f44e0cd6bdd3e592f09"},
-		statusCode: {
-			200: function(data){
-				console.log(data.responseText);
-			},
-			404: function(){
-				alert("Error");
-			}
-		}
-	});
+//	$.post("http://localhost:7411/api", {json: "{foo:bar}"}, function(data){console.log(data);});
+//	$.ajax("http://localhost:7411/api", {
+//		data: {q: "b80755bb506271450f6e0f44e0cd6bdd3e592f09"},
+//		statusCode: {
+//			200: function(data){
+//				console.log(data.responseText);
+//			},
+//			404: function(){
+//				alert("Error");
+//			}
+//		}
+//	});
 
 	fireworksShow = new FireworksShow();
 //	fireworksShow.queue.add(new Firework())
