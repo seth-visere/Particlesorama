@@ -22,6 +22,7 @@ var FireworkControl = Backbone.View.extend({
 	
 	initialize: function(){
 		this.gui = new DAT.GUI();
+		this.model.view = this;
 	},
 	
 	render: function(){
@@ -52,12 +53,37 @@ var FireworksShow = Backbone.View.extend({
 	
 	initialize: function(){
 		this.el = $("#fireworksShow");
-		_.bindAll(this, "addOne", "startShow");
+		_.bindAll(this, "addOne", "removeOne", "startShow", "saveShow");
 		this.queue = new Fireworks();
 		this.queue.bind("add", this.addOne);
+		this.queue.bind("remove", this.removeOne);
 		this.queue.add(new Firework());
 		this.queue.add(new Firework());
 		this.$("#startShow").live("click", this.startShow);
+		this.$("#saveShow").live("click", this.saveShow);
+		this.$("#addFirework").live("click", $.proxy(function(){this.queue.add(new Firework());},this));
+		var hashmatch = window.location.hash.match(/[a-f0-9]{40}/); 
+		if(hashmatch && hashmatch.length > 0){
+			var hash = hashmatch[0];
+			$.ajax("http://localhost:7411/api", {
+			data: {q: hash},
+			statusCode: {
+				200: function(data){
+					console.log(data);
+					while(fireworksShow.queue.length > 0){
+						fireworksShow.queue.remove(fireworksShow.queue.at(0));
+					}
+					_.each(data, function(firework){
+						fireworksShow.queue.add(new Firework(firework));
+					});
+//					fireworksShow.queue.add(data);
+				},
+				404: function(){
+					alert("Error");
+				}
+			}
+			});
+		}
 	},
 	
 	render: function(){
@@ -71,12 +97,25 @@ var FireworksShow = Backbone.View.extend({
 		view.render();
 	},
 	
+	removeOne: function(firework){
+		$(firework.view.el).remove();
+	},
+	
 	startShow: function(){
 		var delay = 0;
 		this.queue.forEach(function(firework){
 			delay += firework.get("delay");
 			setTimeout(firework.fire, delay);
 		});
+	},
+	
+	saveShow: function(){
+		$.post("http://localhost:7411/api", {json: JSON.stringify(this.queue.toJSON())}, function(data){
+			console.log(data);
+//			var result = JSON.parse(result);
+			var result = data;
+			if(result.outcome == "OK") window.location.hash = "#" + result.hash;
+			});
 	}
 
 });

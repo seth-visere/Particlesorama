@@ -47,11 +47,11 @@ var httpServer = http.createServer(function(req, res) {
 					redisClient.set(hash, data.json, function(error, reply) {
 						console.log("Redis response: " + reply);
 						res.writeHead(200, {
-							'Content-Type' : 'text/plain',
+							'Content-Type' : 'text/json',
 							'Access-Control-Allow-Origin' : 'http://localhost',
 							'Access-Control-Allow-Headers' : 'x-requested-with'
 						});
-						res.end(reply);
+						res.end('{"hash":"' + hash + '", "outcome":"' + reply + '"}');
 					});
 				} else {
 					console.log("Empty POST data");
