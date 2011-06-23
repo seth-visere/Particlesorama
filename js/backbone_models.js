@@ -1,13 +1,20 @@
 var Firework = Backbone.Model.extend({
-	defaults: {exploded:false,delay:0,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,xf:Math.random()*800-400, yf:Math.random()*400-100, zf: Math.random()*100-50,xrings:10,zrings:10},
+	defaults: {exploded:false,delay:0,fuse:2000,r:255,g:255,b:255,xi:0,yi:-320,zi:0,xrings:10,zrings:10},
 
 	initialize: function(){
 		_.bindAll(this, "fire");
+		if(this.get("xf") == undefined) this.set({xf:Math.random()*800-400});
+		if(this.get("yf") == undefined) this.set({yf:Math.random()*400-100});
+		if(this.get("zf") == undefined) this.set({zf:Math.random()*100-50});
 		this.set({spawns: new Fireworks([])});
 	},
 	
 	fire: function(){		
 		spawn($.extend(true, {}, this));
+	},
+	
+	addSpawn: function(){
+		this.get("spawns").add(new Firework({xi:this.get("xf"), yi:this.get("yf"), zi:this.get("zf")}));
 	},
 
 	toJSON: function(){
@@ -21,8 +28,10 @@ var FireworkControl = Backbone.View.extend({
 	className: "fireworkControl",
 	
 	initialize: function(){
+		_.bindAll(this, "addOne");
 		this.gui = new DAT.GUI();
 		this.model.view = this;
+		this.model.get("spawns").bind("add", this.addOne);
 	},
 	
 	render: function(){
@@ -37,10 +46,15 @@ var FireworkControl = Backbone.View.extend({
 			this.gui.add(this.model,"zf",-100,100,1);
 			this.gui.add(this.model,"xrings",1,100,1);
 			this.gui.add(this.model,"zrings",1,100,1);
+			this.gui.add(this.model,"addSpawn").name("Add Spawn");
 			this.gui.add(this.model,"fire").name("Fire!");
 			this.gui.open(); //Set correct height
 		}
 		return this;
+	},
+	
+	addOne: function(spawn){
+		
 	}
 });
 
@@ -65,7 +79,7 @@ var FireworksShow = Backbone.View.extend({
 		var hashmatch = window.location.hash.match(/[a-f0-9]{40}/); 
 		if(hashmatch && hashmatch.length > 0){
 			var hash = hashmatch[0];
-			$.ajax("http://localhost:7411/api", {
+			$.ajax("http://" + location.host + ":7411/api", {
 			data: {q: hash},
 			statusCode: {
 				200: function(data){
@@ -110,7 +124,7 @@ var FireworksShow = Backbone.View.extend({
 	},
 	
 	saveShow: function(){
-		$.post("http://localhost:7411/api", {json: JSON.stringify(this.queue.toJSON())}, function(data){
+		$.post("http://" + location.host + ":7411/api", {json: JSON.stringify(this.queue.toJSON())}, function(data){
 			console.log(data);
 //			var result = JSON.parse(result);
 			var result = data;

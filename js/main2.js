@@ -150,13 +150,7 @@ function spawn(firework){
 		.easing(TWEEN.Easing.Sinusoidal.EaseIn)
 		.onComplete($.proxy(function(){
 				this.firework.set({exploded:true});
-				if(firework.get("xi") == 0){
-					var rotation = Math.random()*360;
-					var fuseOffset = Math.random()*200;
-					spawn(new Firework({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.get("xf"),yi:firework.get("yf"),zi:firework.get("zf"),xf:firework.get("xf")+Math.cos((0+rotation)/360*Math.PI*2)*100, yf:firework.get("yf")+Math.sin((0+rotation)/360*Math.PI*2)*100, zf: firework.get("zf")}));
-					spawn(new Firework({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.get("xf"),yi:firework.get("yf"),zi:firework.get("zf"),xf:firework.get("xf")+Math.cos((120+rotation)/360*Math.PI*2)*100, yf:firework.get("yf")+Math.sin((120+rotation)/360*Math.PI*2)*100, zf: firework.get("zf")}));
-					spawn(new Firework({exploded:false,fuse:1000+fuseOffset,r:255,g:255,b:255,xi:firework.get("xf"),yi:firework.get("yf"),zi:firework.get("zf"),xf:firework.get("xf")+Math.cos((240+rotation)/360*Math.PI*2)*100, yf:firework.get("yf")+Math.sin((240+rotation)/360*Math.PI*2)*100, zf: firework.get("zf")}));
-				}
+				firework.get("spawns").forEach(function(firework){firework.fire();});
 			},particleSystem))
 		.start()
 		.chain(fadeTween);
