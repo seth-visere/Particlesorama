@@ -142,11 +142,11 @@ function spawn(firework){
 		scene.removeObject(oldSystem);
 		});
 
-	particleSystem.position.x = firework.get("xi");
-	particleSystem.position.y = firework.get("yi");
-	particleSystem.position.z = firework.get("zi");
+	particleSystem.position.x = firework.get("xi")+firework.get("x0");
+	particleSystem.position.y = firework.get("yi")+firework.get("y0");
+	particleSystem.position.z = firework.get("zi")+firework.get("z0");
 	new TWEEN.Tween(particleSystem.position)
-		.to({x:firework.get("xf"),y:firework.get("yf"),z:firework.get("zf")}, firework.get("fuse"))
+		.to({x:firework.get("xf")+firework.get("x0"),y:firework.get("yf")+firework.get("y0"),z:firework.get("zf")+firework.get("z0")}, firework.get("fuse"))
 		.easing(TWEEN.Easing.Sinusoidal.EaseIn)
 		.onComplete($.proxy(function(){
 				this.firework.set({exploded:true});

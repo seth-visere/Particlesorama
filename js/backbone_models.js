@@ -6,6 +6,9 @@ var Firework = Backbone.Model.extend({
 		r : 255,
 		g : 255,
 		b : 255,
+		x0 : 0,
+		y0 : 0,
+		z0 : 0,
 		xi : 0,
 		yi : -320,
 		zi : 0,
@@ -14,7 +17,7 @@ var Firework = Backbone.Model.extend({
 	},
 
 	initialize : function() {
-		_.bindAll(this, "fire");
+		_.bindAll(this, "fire", "onChange");
 		if (this.get("xf") == undefined)
 			this.set({
 				xf : Math.random() * 800 - 400
@@ -27,9 +30,13 @@ var Firework = Backbone.Model.extend({
 			this.set({
 				zf : Math.random() * 100 - 50
 			});
-		this.set({
-			spawns : new Fireworks([])
-		});
+		if(!this.get("spawns")) this.set({spawns: new Fireworks()});
+		this.bind("change", this.onChange);
+		//		var spawns = this.get("spawns");
+//		this.set({spawns: new Fireworks()});
+//		if(spawns != undefined && spawns.length > 0){
+//			this.get("spawns").add(spawns);
+//		}
 	},
 
 	fire : function() {
@@ -38,10 +45,21 @@ var Firework = Backbone.Model.extend({
 
 	addSpawn : function() {
 		this.get("spawns").add(new Firework({
-			xi : this.get("xf"),
-			yi : this.get("yf"),
-			zi : this.get("zf")
+			xi : 0,
+			yi : 0,
+			zi : 0,
+			x0 : this.get("xf")+this.get("x0"),
+			y0 : this.get("yf")+this.get("y0"),
+			z0 : this.get("zf")+this.get("z0")
 		}));
+	},
+	
+	onChange : function(){
+		if(this.hasChanged("xf") || this.hasChanged("yf") || this.hasChanged("zf") || this.hasChanged("x0") || this.hasChanged("y0") || this.hasChanged("z0")){
+			this.get("spawns").forEach(function(spawn){
+				spawn.set({x0:this.get("xf")+this.get("x0"),y0:this.get("yf")+this.get("y0"),z0:this.get("zf")+this.get("z0")});
+			},this);
+		}
 	},
 
 	toJSON : function() {
@@ -49,6 +67,17 @@ var Firework = Backbone.Model.extend({
 		return _.extend(json, {
 			spawns : this.get("spawns").toJSON()
 		});
+	},
+	
+	parse : function(response){
+		//We force recursive parses to get spawns to be properly converted to objects
+		var spawns = response.spawns;		
+		var spawnsColl = new Fireworks();
+		for(var i=0;i<spawns.length;i++){
+			spawnsColl.add(new Firework().parse(spawns[i]));
+		}
+		response.spawns = spawnsColl;
+		return response;
 	}
 });
 
@@ -64,7 +93,7 @@ var FireworkControl = Backbone.View.extend({
 	},
 
 	render : function() {
-		if (this.$(".guidat").length == 0) {
+		if (this.$(".guidat").length == 0) { //First render
 			$(this.el).append(this.gui.domElement);
 			this.gui.add(this.model, "delay", 0, 10000, 1);
 			this.gui.add(this.model, "r", 0, 255, 1);
@@ -78,12 +107,17 @@ var FireworkControl = Backbone.View.extend({
 			this.gui.add(this.model, "addSpawn").name("Add Spawn");
 			this.gui.add(this.model, "fire").name("Fire!");
 			this.gui.open(); // Set correct height
+			$(this.el).append("<ul class='fireworksQueue spawnQueue'></ul>");
+			this.model.get("spawns").each(function(spawn){this.addOne(spawn);},this);
 		}
 		return this;
 	},
 
 	addOne : function(spawn) {
-
+		var view = new FireworkControl({model:spawn});
+		this.$(">.spawnQueue").append(view.el);
+		//Render after attachment to get proper height
+		view.render()
 	}
 });
 
@@ -166,7 +200,7 @@ var FireworksShow = Backbone.View.extend({
 									.at(0));
 						}
 						_.each(data, function(firework) {
-							this.queue.add(new Firework(firework));
+							this.queue.add(new Firework().parse(firework));
 						}, this);
 						// fireworksShow.queue.add(data);
 					},this),

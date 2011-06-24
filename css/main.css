@@ -10,7 +10,7 @@
 	height: 480px;
 }
 
-#showQueue {
+.fireworksQueue {
 	overflow-y: auto;
 	height: 100%;
 	width:100%;
@@ -23,12 +23,19 @@
 	list-style-type: none;
 }
 
-#showQueue>li {
+
+
+.fireworksQueue>li {
 	padding: 0px;
 	margin: 0px;
 	float:right;
 	clear:right;
 }
+
+.spawnQueue{
+	position:relative;
+	left:-30px;
+	}
 
 .guidat {
 	padding: 0px;

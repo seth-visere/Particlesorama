@@ -1,5 +1,7 @@
 var http = require('http'), url = require("url"), path = require("path"), sys = require("sys"), fs = require('fs'), querystring = require("querystring"), crypto = require('crypto'), redis = require("redis");
 
+var ALLOW_HOST = "*";
+
 var redisClient = redis.createClient();
 redisClient.on("error", function(err) {
 	console.log("Error " + err);
@@ -17,7 +19,7 @@ var httpServer = http.createServer(function(req, res) {
 				console.log(key);
 				res.writeHead(200, {
 					'Content-Type' : 'text/json',
-					'Access-Control-Allow-Origin' : 'http://10.0.1.22',
+					'Access-Control-Allow-Origin' : ALLOW_HOST,
 					'Access-Control-Allow-Headers' : 'x-requested-with'
 						});
 				redisClient.get(key, function(err, val) {
@@ -26,7 +28,7 @@ var httpServer = http.createServer(function(req, res) {
 			} else {
 				res.writeHead(404, {
 					'Content-Type' : 'text/plain',
-					'Access-Control-Allow-Origin' : 'http://10.0.1.22',
+					'Access-Control-Allow-Origin' : ALLOW_HOST,
 					'Access-Control-Allow-Headers' : 'x-requested-with'
 				});
 				res.end("Not found");
@@ -48,7 +50,7 @@ var httpServer = http.createServer(function(req, res) {
 						console.log("Redis response: " + reply);
 						res.writeHead(200, {
 							'Content-Type' : 'text/json',
-							'Access-Control-Allow-Origin' : 'http://10.0.1.22',
+							'Access-Control-Allow-Origin' : ALLOW_HOST,
 							'Access-Control-Allow-Headers' : 'x-requested-with'
 						});
 						res.end('{"hash":"' + hash + '", "outcome":"' + reply + '"}');
@@ -57,7 +59,7 @@ var httpServer = http.createServer(function(req, res) {
 					console.log("Empty POST data");
 					res.writeHead(200, {
 						'Content-Type' : 'text/json',
-						'Access-Control-Allow-Origin' : 'http://10.0.1.22',
+						'Access-Control-Allow-Origin' : ALLOW_HOST,
 						'Access-Control-Allow-Headers' : 'x-requested-with'
 					});
 					res.end("");
@@ -68,7 +70,7 @@ var httpServer = http.createServer(function(req, res) {
 			console.log("Unknown method " + req.method);
 			res.writeHead(500, {
 				'Content-Type' : 'text/plain',
-				'Access-Control-Allow-Origin' : 'http://10.0.1.22',
+				'Access-Control-Allow-Origin' : ALLOW_HOST,
 				'Access-Control-Allow-Headers' : 'x-requested-with'
 			});
 			res.end("Unknown request");
