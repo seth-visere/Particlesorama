@@ -6,39 +6,51 @@
 	border: 1px solid black;
 	position: absolute;
 	top: 0px;
+	left:320px;
 	width: 920px;
 	height: 480px;
+}
+
+#fireworksShow {
+	position: fixed;
+	left: 0px;
+}
+
+#showQueue {
+	position: fixed;
+	left: 0px;
+	top:0px;
 }
 
 .fireworksQueue {
 	overflow-y: auto;
 	height: 100%;
-	width:100%;
-	position: fixed;
-	right: 10px;
+	width: 100%;
+	position: absolute;
+	left: 0px;
 	top: 0px;
 	border: 0px solid black;
 	margin: 0px;
 	padding: 0px;
 	list-style-type: none;
+	z-index:2;
 }
-
-
 
 .fireworksQueue>li {
 	padding: 0px;
 	margin: 0px;
-	float:right;
-	clear:right;
+	float: left;
+	clear: left;
 }
 
-.spawnQueue{
-	position:relative;
-	left:-30px;
-	}
+.spawnQueue {
+	position: relative;
+	left: 30px;
+}
 
 .guidat {
 	padding: 0px;
 	margin: 0px;
-	position:relative;
+	position: relative;
+	float:left;
 }
