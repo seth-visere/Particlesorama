@@ -116,13 +116,22 @@ var FireworkControl = Backbone.View.extend({
 			this.gui.add(this.model, "remove").name("Delete");
 			this.gui.add(this.model, "fire").name("Fire!");
 			this.gui.open(); // Set correct height
-			$(this.el).append("<ul class='fireworksQueue spawnQueue'></ul>");
+			$(this.el).append("<ul class='fireworksQueue spawnQueue'><li class='queueHeader' style='display:none;'><div class='ui-state-default queueToggle'><span class='ui-icon ui-icon-circlesmall-minus'></span></div></li></ul>");
+			this.model.get("spawns").el = this.$(">.fireworksQueue");
 			this.model.get("spawns").each(function(spawn){this.addOne(spawn);},this);
+			this.$(">.fireworksQueue>.queueHeader>.queueToggle").bind("click", $.proxy(function(){
+				if(this.$(">.fireworksQueue>.queueHeader>.queueToggle>span").hasClass("ui-icon-circlesmall-plus")){
+					this.model.get("spawns").openAll();
+				}else{
+					this.model.get("spawns").closeAll();
+				}
+			}, this));
 		}
 		return this;
 	},
 
 	addOne : function(spawn) {
+		this.$(">.spawnQueue>.queueHeader").show();
 		var view = new FireworkControl({model:spawn});
 		this.$(">.spawnQueue").append(view.el);
 		//Render after attachment to get proper height
@@ -136,7 +145,29 @@ var FireworkControl = Backbone.View.extend({
 });
 
 var Fireworks = Backbone.Collection.extend({
-	model : Firework
+	model : Firework,
+	
+	initialize: function(){
+		_.bindAll(this, "openAll", "closeAll");
+	},
+	
+	openAll : function(){
+		this.forEach(function(firework){
+			firework.get("spawns").openAll();
+			firework.view.gui.open();
+			$(this.el).find(">.queueHeader>.queueToggle>span").removeClass("ui-icon-circlesmall-plus");
+			$(this.el).find(">.queueHeader>.queueToggle>span").addClass("ui-icon-circlesmall-minus");
+		},this);
+	},
+
+	closeAll : function(){
+		this.forEach(function(firework){
+			firework.get("spawns").closeAll();
+			firework.view.gui.close();
+			$(this.el).find(">.queueHeader>.queueToggle>span").addClass("ui-icon-circlesmall-plus");
+			$(this.el).find(">.queueHeader>.queueToggle>span").removeClass("ui-icon-circlesmall-minus");
+		},this);
+	}
 });
 
 var FireworksShow = Backbone.View.extend({
@@ -147,6 +178,7 @@ var FireworksShow = Backbone.View.extend({
 		_.bindAll(this, "addOne", "removeOne", "startShow", "saveShow",
 				"loadShow");
 		this.queue = new Fireworks();
+		this.queue.el = this.$(">.fireworksQueue");
 		this.queue.bind("add", this.addOne);
 		this.queue.bind("remove", this.removeOne);
 		this.queue.add(new Firework());
@@ -158,6 +190,13 @@ var FireworksShow = Backbone.View.extend({
 		}, this));
 		$(window).bind("hashchange", this.loadShow);
 		$(window).trigger("hashchange");
+		this.$(">.fireworksQueue>.queueHeader>.queueToggle").bind("click", $.proxy(function(){
+			if(this.$(">.fireworksQueue>.queueHeader>.queueToggle>span").hasClass("ui-icon-circlesmall-plus")){
+				this.queue.openAll();
+			}else{
+				this.queue.closeAll();
+			}
+		}, this));
 	},
 
 	render : function() {

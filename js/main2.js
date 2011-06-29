@@ -177,9 +177,9 @@ function animate() {
 	for(var i=0;i<systems.length;i++){
 		if(systems[i].firework.get("exploded")){
 			for(var j=0;j<systems[i].geometry.vertices.length;j++){
-				systems[i].geometry.vertices[j].position.x += 2*(systems[i].geometry.vertices[j].velocity.x+Math.random()-0.25); 
-				systems[i].geometry.vertices[j].position.y += 2*(systems[i].geometry.vertices[j].velocity.y+Math.random()-0.25); 
-				systems[i].geometry.vertices[j].position.z += 2*(systems[i].geometry.vertices[j].velocity.z+Math.random()-0.25); 
+				systems[i].geometry.vertices[j].position.x += 2*(systems[i].geometry.vertices[j].velocity.x*(1+Math.random()-0.25)); 
+				systems[i].geometry.vertices[j].position.y += 2*(systems[i].geometry.vertices[j].velocity.y*(1+Math.random()-0.25)); 
+				systems[i].geometry.vertices[j].position.z += 2*(systems[i].geometry.vertices[j].velocity.z*(1+Math.random()-0.25)); 
 				systems[i].geometry.vertices[j].velocity.y -= 0.01; 
 			}
 		}else{

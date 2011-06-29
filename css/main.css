@@ -19,7 +19,7 @@
 #showQueue {
 	position: fixed;
 	left: 0px;
-	top:0px;
+	top:150px;
 }
 
 .fireworksQueue {
@@ -43,6 +43,19 @@
 	float: left;
 	clear: left;
 }
+
+li.queueHeader{
+	height:20px;
+	background-color:#efefec;
+	border:1px solid black;
+	width:278px;
+	}
+	
+	li.queueHeader > .ui-state-default{
+	height:16px;
+	width: 16px;
+	float:left;
+	}
 
 .spawnQueue {
 	position: relative;
