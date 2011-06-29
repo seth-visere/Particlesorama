@@ -257,6 +257,9 @@ var FireworksShow = Backbone.View.extend({
 						_.each(data, function(firework) {
 							this.queue.add(new Firework().parse(firework));
 						}, this);
+						if(hash == "e6a2b1d455b893b83bfbf94402c375115c270655"){
+							this.startShow();
+						}
 						// fireworksShow.queue.add(data);
 					},this),
 					404 : function() {
