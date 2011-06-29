@@ -3,6 +3,7 @@ var Firework = Backbone.Model.extend({
 		exploded : false,
 		delay : 0,
 		fuse : 2000,
+		velocity : 1,
 		r : 255,
 		g : 255,
 		b : 255,
@@ -41,6 +42,10 @@ var Firework = Backbone.Model.extend({
 
 	fire : function() {
 		spawn($.extend(true, {}, this));
+	},
+	
+	remove : function() {
+		if(confirm("This will permanently delete this firework and any spawns! Continue?")) this.collection.remove(this);
 	},
 
 	addSpawn : function() {
@@ -86,16 +91,19 @@ var FireworkControl = Backbone.View.extend({
 	className : "fireworkControl",
 
 	initialize : function() {
-		_.bindAll(this, "addOne");
+		_.bindAll(this, "addOne", "removeOne");
 		this.gui = new DAT.GUI();
 		this.model.view = this;
 		this.model.get("spawns").bind("add", this.addOne);
+		this.model.get("spawns").bind("remove", this.removeOne);
 	},
 
 	render : function() {
 		if (this.$(".guidat").length == 0) { //First render
 			$(this.el).append(this.gui.domElement);
 			this.gui.add(this.model, "delay", 0, 10000, 1);
+			this.gui.add(this.model, "fuse", 0, 10000, 1);
+			this.gui.add(this.model, "velocity", 0, 10, 0.1);
 			this.gui.add(this.model, "r", 0, 255, 1);
 			this.gui.add(this.model, "g", 0, 255, 1);
 			this.gui.add(this.model, "b", 0, 255, 1);
@@ -105,6 +113,7 @@ var FireworkControl = Backbone.View.extend({
 			this.gui.add(this.model, "xrings", 1, 100, 1);
 			this.gui.add(this.model, "zrings", 1, 100, 1);
 			this.gui.add(this.model, "addSpawn").name("Add Spawn");
+			this.gui.add(this.model, "remove").name("Delete");
 			this.gui.add(this.model, "fire").name("Fire!");
 			this.gui.open(); // Set correct height
 			$(this.el).append("<ul class='fireworksQueue spawnQueue'></ul>");
@@ -118,7 +127,12 @@ var FireworkControl = Backbone.View.extend({
 		this.$(">.spawnQueue").append(view.el);
 		//Render after attachment to get proper height
 		view.render()
+	},
+	
+	removeOne : function(spawn) {
+		$(spawn.view.el).remove();
 	}
+
 });
 
 var Fireworks = Backbone.Collection.extend({

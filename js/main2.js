@@ -124,7 +124,7 @@ function spawn(firework){
 	for(var i=0;i<Math.PI;i+=Math.PI/firework.get("zrings")){
 		for(var j=0;j<2*Math.PI;j+=2*Math.PI/firework.get("xrings")){
 			var particle = new THREE.Vertex(new THREE.Vector3(0, 0, 0));
-			particle.velocity = new THREE.Vector3(Math.sin(i)*Math.cos(j), Math.sin(i)*Math.sin(j), Math.cos(i));
+			particle.velocity = new THREE.Vector3(Math.sin(i)*Math.cos(j)*firework.get("velocity"), Math.sin(i)*Math.sin(j)*firework.get("velocity"), Math.cos(i)*firework.get("velocity"));
 			particles.vertices.push(particle);
 		}
 	}
