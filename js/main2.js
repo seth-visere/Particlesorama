@@ -107,9 +107,10 @@ function init() {
 	light.position.z = 1000;
 	scene.addLight(light);
 
+	
 	// renderer = new THREE.CanvasRenderer();
 	renderer = new THREE.WebGLRenderer({
-		clearAlpha : 1,
+		clearAlpha : 0,
 		autoClear: true
 	});
 	renderer.setSize(container.width(), container.height());

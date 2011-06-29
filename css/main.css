@@ -3,12 +3,27 @@
 }
 
 #canvas_wr {
-	border: 1px solid black;
+	border: 0px solid black;
 	position: absolute;
 	top: 0px;
 	left:320px;
 	width: 920px;
 	height: 480px;
+	background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.03, rgb(34,139,171)),
+    color-stop(0.15, rgb(115,171,186)),
+    color-stop(0.76, rgb(10,88,110))
+);
+background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(34,139,171) 3%,
+    rgb(115,171,186) 15%,
+    rgb(10,88,110) 76%
+);
+
 }
 
 #fireworksShow {
