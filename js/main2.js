@@ -177,9 +177,9 @@ function animate() {
 	for(var i=0;i<systems.length;i++){
 		if(systems[i].firework.get("exploded")){
 			for(var j=0;j<systems[i].geometry.vertices.length;j++){
-				systems[i].geometry.vertices[j].position.x += (systems[i].geometry.vertices[j].velocity.x+(Math.random()-0.5)*systems[i].firework.get("velocity"));
-				systems[i].geometry.vertices[j].position.y += (systems[i].geometry.vertices[j].velocity.y+(Math.random()-0.5)*systems[i].firework.get("velocity")); 
-				systems[i].geometry.vertices[j].position.z += (systems[i].geometry.vertices[j].velocity.z+(Math.random()-0.5)*systems[i].firework.get("velocity")); 
+				systems[i].geometry.vertices[j].position.x += (systems[i].geometry.vertices[j].velocity.x+(Math.random()-0.5)*systems[i].firework.get("randomness")*systems[i].firework.get("velocity"));
+				systems[i].geometry.vertices[j].position.y += (systems[i].geometry.vertices[j].velocity.y+(Math.random()-0.5)*systems[i].firework.get("randomness")*systems[i].firework.get("velocity")); 
+				systems[i].geometry.vertices[j].position.z += (systems[i].geometry.vertices[j].velocity.z+(Math.random()-0.5)*systems[i].firework.get("randomness")*systems[i].firework.get("velocity")); 
 				systems[i].geometry.vertices[j].velocity.y -= 0.01; 
 			}
 		}else{

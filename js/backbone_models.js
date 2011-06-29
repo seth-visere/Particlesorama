@@ -4,6 +4,7 @@ var Firework = Backbone.Model.extend({
 		delay : 0,
 		fuse : 2000,
 		velocity : 1,
+		randomness : 1,
 		r : 255,
 		g : 255,
 		b : 255,
@@ -104,6 +105,7 @@ var FireworkControl = Backbone.View.extend({
 			this.gui.add(this.model, "delay", 0, 10000, 1);
 			this.gui.add(this.model, "fuse", 0, 10000, 1);
 			this.gui.add(this.model, "velocity", 0, 10, 0.1);
+			this.gui.add(this.model, "randomness", 0, 1, 0.01);
 			this.gui.add(this.model, "r", 0, 255, 1);
 			this.gui.add(this.model, "g", 0, 255, 1);
 			this.gui.add(this.model, "b", 0, 255, 1);
