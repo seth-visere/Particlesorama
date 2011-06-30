@@ -16,7 +16,7 @@ body {
 	border: 0px solid black;
 	position: absolute;
 	top: 0px;
-	left: 340px;
+	left: 400px;
 	width: 920px;
 	height: 580px;
 	background-image: url(../images/canvasbackground.jpg);
@@ -29,7 +29,7 @@ body {
 	position: fixed;
 	opacity: 1.0;
 	top: 0px;
-	left: 340px;
+	left: 400px;
 	width: 920px;
 	height: 580px;
 	z-index: 10;
@@ -45,15 +45,15 @@ body {
 	height: 721px;
 	position: fixed;
 	top: 0px;
-	z-index:11;
+	z-index: 2;
 }
 
 #leftBanner {
-	left:280px;
+	left: 340px;
 }
 
 #rightBanner {
-	left: 1260px;	
+	left: 1320px;
 }
 
 /* WebGL unsupported notification */
@@ -68,11 +68,11 @@ body {
 	left: 0px;
 }
 
-#instructions{
-	width:240px;
+#instructions {
+	width: 240px;
 	margin: 10px auto;
-	font-size:14px;
-	}
+	font-size: 14px;
+}
 
 #showQueue {
 	position: fixed;
@@ -80,9 +80,9 @@ body {
 	top: 0px;
 }
 
-#showQueue > li:nth-child(2){
-	margin-top:350px;
-	}
+#showQueue>li:nth-child(2) {
+	margin-top: 350px;
+}
 
 #showQueueBackground { /* 		background-color:#f4eadd;
  */
@@ -94,12 +94,11 @@ body {
 }
 
 #showControls {
-	position:fixed;
-	top:0px;
-	left:0px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
 	background-image: url(http://myclibe.com/images/bg_wood_panel_black.jpg);
-	z-index:2;
-	
+	z-index: 4;
 }
 
 .fireworksQueue {
@@ -113,7 +112,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	list-style-type: none;
-	z-index: 2;
+	z-index: 3;
 }
 
 .fireworksQueue>li {
@@ -136,7 +135,7 @@ li.queueHeader {
 }
 
 li.queueHeader>.ui-state-default {
-	margin-top:2px;
+	margin-top: 2px;
 	height: 16px;
 	width: 16px;
 	float: left;
@@ -174,15 +173,15 @@ li.queueHeader>.ui-state-default {
 }
 
 #newShow {
-	left: 41px;
+	left: 101px;
 }
 
 #startShow {
-	left: 139px;
+	left: 199px;
 }
 
 #saveShow {
-	left: 361px;
+	left: 421px;
 }
 
 #newShow:hover,#startShow:hover,#saveShow:hover,#addFirework:hover {
@@ -201,13 +200,39 @@ li.queueHeader>.ui-state-default {
 }
 
 #below p {
-	margin-bottom: 20px;
-	line-height: 22px;
+	font-size: 14px;
+	margin-bottom: 10px;
+	line-height: 18px;
 }
 
 p {
-	font-size: 18px;
+	font-size: 14px;
 	font-weight: normal;
 	color: white;
 	text-shadow: 0px 2px 3px black;
+}
+
+.ui-icon:hover{
+	cursor:pointer;
+	}
+
+/* GUI DAT restyling */
+.guidat-controller.number input[type="text"] {
+	color: #ffffff !important;
+}
+
+.guidat-slider-fg{
+	background-color:#223b65;
+		
+	}
+.guidat-controller .guidat-slider-bg .guidat-slider-fg:hover, .guidat-controller.active .guidat-slider-bg .guidat-slider-fg{
+	background-color:#223b65;
+	}
+
+.guidat-controller.number {
+	border-left: 5px solid #243e69;
+}
+
+.guidat-controller.function {
+	border-left: 5px solid #c74646;
 }

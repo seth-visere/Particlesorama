@@ -102,18 +102,18 @@ var FireworkControl = Backbone.View.extend({
 	render : function() {
 		if (this.$(".guidat").length == 0) { //First render
 			$(this.el).append(this.gui.domElement);
-			this.gui.add(this.model, "delay", 0, 10000, 1);
-			this.gui.add(this.model, "fuse", 0, 10000, 1);
-			this.gui.add(this.model, "velocity", 0, 10, 0.1);
-			this.gui.add(this.model, "randomness", 0, 1, 0.01);
-			this.gui.add(this.model, "r", 0, 255, 1);
-			this.gui.add(this.model, "g", 0, 255, 1);
-			this.gui.add(this.model, "b", 0, 255, 1);
-			this.gui.add(this.model, "xf", -900, 900, 1);
-			this.gui.add(this.model, "yf", -600, 600, 1);
-			this.gui.add(this.model, "zf", -100, 100, 1);
-			this.gui.add(this.model, "xrings", 1, 100, 1);
-			this.gui.add(this.model, "zrings", 1, 100, 1);
+			this.gui.add(this.model, "delay", 0, 10000, 1).name("Launch Delay");
+			this.gui.add(this.model, "fuse", 0, 10000, 1).name("Fuse");
+			this.gui.add(this.model, "velocity", 0, 10, 0.1).name("Particle Velocity");
+			this.gui.add(this.model, "randomness", 0, 1, 0.01).name("Particle Randomness");
+			this.gui.add(this.model, "r", 0, 255, 1).name("Red");
+			this.gui.add(this.model, "g", 0, 255, 1).name("Blue");
+			this.gui.add(this.model, "b", 0, 255, 1).name("Green");
+			this.gui.add(this.model, "xf", -900, 900, 1).name("Target X");
+			this.gui.add(this.model, "yf", -600, 600, 1).name("Target Y");
+			this.gui.add(this.model, "zf", -100, 100, 1).name("Target Z");
+			this.gui.add(this.model, "xrings", 1, 100, 1).name("X Rings");
+			this.gui.add(this.model, "zrings", 1, 100, 1).name("Y Rings");
 			this.gui.add(this.model, "addSpawn").name("Add Spawn");
 			this.gui.add(this.model, "remove").name("Delete");
 			this.gui.add(this.model, "fire").name("Fire!");
