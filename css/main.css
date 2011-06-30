@@ -19,9 +19,9 @@ body{
 	height: 580px;
 	background-image: url(../images/canvasbackground.jpg);
 
-	background-color:#1c1f27;
+	background-color:#12131b;
 	background-repeat: no-repeat;
-	background-position: 0px 50px;
+	background-position: 0px 0px;
 }
 
 #canvas_fg{
@@ -35,7 +35,7 @@ body{
 	pointer-events:none;
 	background-image: url(../images/canvasforeground.png);
 	background-repeat: no-repeat;
-	background-position: 0px 50px;
+	background-position: 0px 0px;
 }
 
 /* WebGL unsupported notification */
