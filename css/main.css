@@ -20,7 +20,8 @@ body{
 	background-image: url(../images/canvasbackground.jpg);
 
 	background-color:#1c1f27;
-
+	background-repeat: no-repeat;
+	background-position: 0px 50px;
 }
 
 #fireworksShow {
