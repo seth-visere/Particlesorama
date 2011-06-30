@@ -237,8 +237,11 @@ var FireworksShow = Backbone.View.extend({
 			// var result = JSON.parse(result);
 			var result = data;
 			if (result.outcome == "OK")
-				window.location.search = "";
-				window.location.hash = "#" + result.hash;
+				if(window.location.search){
+					location.href = location.origin + location.pathname + "#" + result.hash; 
+				}else{
+					window.location.hash = "#" + result.hash;
+				}
 		});
 	},
 
