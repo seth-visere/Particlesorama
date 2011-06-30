@@ -109,8 +109,8 @@ var FireworkControl = Backbone.View.extend({
 			this.gui.add(this.model, "r", 0, 255, 1);
 			this.gui.add(this.model, "g", 0, 255, 1);
 			this.gui.add(this.model, "b", 0, 255, 1);
-			this.gui.add(this.model, "xf", -400, 400, 1);
-			this.gui.add(this.model, "yf", -400, 400, 1);
+			this.gui.add(this.model, "xf", -900, 900, 1);
+			this.gui.add(this.model, "yf", -600, 600, 1);
 			this.gui.add(this.model, "zf", -100, 100, 1);
 			this.gui.add(this.model, "xrings", 1, 100, 1);
 			this.gui.add(this.model, "zrings", 1, 100, 1);
@@ -257,7 +257,7 @@ var FireworksShow = Backbone.View.extend({
 						_.each(data, function(firework) {
 							this.queue.add(new Firework().parse(firework));
 						}, this);
-						if(hash == "e6a2b1d455b893b83bfbf94402c375115c270655"){
+						if(location.search.match(/autoplay=true/) != null){
 							this.startShow();
 						}
 						// fireworksShow.queue.add(data);

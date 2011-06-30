@@ -4,6 +4,8 @@
 <link type="text/css" href="css/main.css" rel="stylesheet" />
 <link type="text/css"
 	href="css/ui-lightness/jquery-ui-1.8.11.custom.css" rel="stylesheet" />
+<link type="text/css"
+	href="http://myclibe.com/stylesheets/application.css" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.11.custom.min.js">
 	
@@ -22,21 +24,37 @@
 </head>
 <body>
 	<div id="fireworksShow">
+		<div id="showQueueBackground"></div>
 		<ul id="showQueue" class="fireworksQueue">
 			<li>
+				<img src="images/magic.png" id="magic"/>
 				<div id="showControls">
 					<input type="button" id="saveShow" value="Save" /> <input
 						type="button" id="startShow" value="Start Show" /> <input
 						type="button" id="addFirework" value="Add Firework" />
 				</div>
-				<h1>Fireworks Queue</h1></li>
+				<h1>Fireworks Queue</h1>
+			</li>
 			<li class='queueHeader'><div
 					class="ui-state-default queueToggle">
 					<span class='ui-icon ui-icon-circlesmall-minus'></span>
-				</div>
-			</li>
+				</div></li>
 		</ul>
 		<div id="canvas_wr"></div>
+		<div id="clibecopy">
+			<a href="http://myclibe.com" target="_top"><img
+				src="http://myclibe.com/images/logo.png" id="splashlogo" border="0" />
+			</a>
+			<p>
+				<strong>Clibe</strong> is a cloud library.<br /> Craft your stories
+				within digital journals<br />and simply publish them from your iPad.<br />
+				Or, browse the <strong>Clibe</strong> library for inspiration.
+			</p>
+			<p>
+				<strong>Clibe</strong> is pen and paper. Reinvented to share.
+			</p>
+		</div>
+
 		<div id="debug"></div>
 	</div>
 </body>
