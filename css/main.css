@@ -1,9 +1,9 @@
 body{
 	margin:0px;
 	padding:0px;
-/*	background-image: url(http://myclibe.com/images/bg_wood_panel_black.jpg) !important;*/
-	background-image:none !important;
-	background-color: #f4eadd !important;
+	background-image: url(http://myclibe.com/images/bg_wood_panel_black.jpg) !important;
+/* 	background-image:none !important;
+ */	background-color: #f4eadd !important;
 	}
 
 #debug {
@@ -36,8 +36,8 @@ body{
 }
 
 #showQueueBackground{
-		background-color:#f4eadd;
-		width:320px;
+/* 		background-color:#f4eadd;
+ */		width:320px;
 		position:fixed;
 		height:100%;
 		top:0px;
@@ -103,17 +103,24 @@ li.queueHeader{
 	float:left;
 }
 
-#clibecopy{
+#below{
 	width:860px;
 	height:100%;
 	position:fixed;
 	left:320px;
 	top:580px;
 	padding:30px;
-	background-image:url(http://myclibe.com/images/bg_wood_panel_black.jpg);
+	/* background-image:url(http://myclibe.com/images/bg_wood_panel_black.jpg);
+	 */z-index:10;
 }
 
-#clibecopy > p{
+
+#clibeCopy{
+	position:absolute;
+	right:15px;
+	}
+	
+#below p{
 	margin-bottom:20px;
 	line-height:22px;
 }
