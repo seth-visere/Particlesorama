@@ -186,7 +186,7 @@ var FireworksShow = Backbone.View.extend({
 		this.queue.add(new Firework());
 		this.queue.add(new Firework());
 		this.queue.add(new Firework());
-		this.$("#newShow").live("click", function(){if(confirm('This will remove all fireworks and create a new show! Continue?')) location.href = location.origin + location.pathname});
+		this.$("#newShow").live("click", function(){if(confirm('This will remove all fireworks and create a new show! Continue?')) location.href = location.protocol + "//" + location.host + location.pathname});
 		this.$("#startShow").live("click", this.startShow);
 		this.$("#saveShow").live("click", this.saveShow);
 		this.$("#addFirework").live("click", $.proxy(function() {
@@ -238,7 +238,7 @@ var FireworksShow = Backbone.View.extend({
 			var result = data;
 			if (result.outcome == "OK")
 				if(window.location.search){
-					location.href = location.origin + location.pathname + "#" + result.hash; 
+					location.href = location.protocol + "//" + location.host + location.pathname + "#" + result.hash; 
 				}else{
 					window.location.hash = "#" + result.hash;
 				}

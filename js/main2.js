@@ -6,6 +6,7 @@ var image1Values;
 $(function() {
 	if (!Detector.webgl)
 		Detector.addGetWebGLMessage();
+	if(!$.browser.webkit) alert("Sorry, you appear to be using a browser other than Google Chrome. While some features may work in your browser, please open with Chrome for the best experience.");
 	DAT.GUI.autoPlace = false;
 	loadFireworksTest();
 });
