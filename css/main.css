@@ -40,6 +40,10 @@ body{
 		top:0px;
 		left:0px;
 	}
+	
+	#showControls{
+	margin-top:100px;
+	}
 
 .fireworksQueue {
 	overflow-y: auto;

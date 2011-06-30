@@ -228,7 +228,7 @@ var FireworksShow = Backbone.View.extend({
 	},
 
 	saveShow : function() {
-		$.post("http://" + location.host + ":7411/api", {
+		$.post("http://" + "173.255.248.45" + ":7411/api", {
 			json : JSON.stringify(this.queue.toJSON())
 		}, function(data) {
 			console.log(data);
@@ -243,7 +243,7 @@ var FireworksShow = Backbone.View.extend({
 		var hashmatch = window.location.hash.match(/[a-f0-9]{40}/);
 		if (hashmatch && hashmatch.length > 0) {
 			var hash = hashmatch[0];
-			$.ajax("http://" + location.host + ":7411/api", {
+			$.ajax("http://" + "173.255.248.45" + ":7411/api", {
 				data : {
 					q : hash
 				},
