@@ -275,5 +275,4 @@ var FireworksShow = Backbone.View.extend({
 			});
 		}
 	}
-
 });
