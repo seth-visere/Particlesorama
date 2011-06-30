@@ -237,6 +237,7 @@ var FireworksShow = Backbone.View.extend({
 			// var result = JSON.parse(result);
 			var result = data;
 			if (result.outcome == "OK")
+				window.location.search = "";
 				window.location.hash = "#" + result.hash;
 		});
 	},
