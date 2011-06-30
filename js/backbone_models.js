@@ -185,6 +185,8 @@ var FireworksShow = Backbone.View.extend({
 		this.queue.bind("remove", this.removeOne);
 		this.queue.add(new Firework());
 		this.queue.add(new Firework());
+		this.queue.add(new Firework());
+		this.$("#newShow").live("click", function(){if(confirm('This will remove all fireworks and create a new show! Continue?')) location.href = location.origin + location.pathname});
 		this.$("#startShow").live("click", this.startShow);
 		this.$("#saveShow").live("click", this.saveShow);
 		this.$("#addFirework").live("click", $.proxy(function() {

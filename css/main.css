@@ -1,10 +1,12 @@
-body{
-	margin:0px;
-	padding:0px;
-	background-image: url(http://myclibe.com/images/bg_wood_panel_black.jpg) !important;
-/* 	background-image:none !important;
- */	background-color: #f4eadd !important;
-	}
+body {
+	margin: 0px;
+	padding: 0px;
+	background-image: url(http://myclibe.com/images/bg_wood_panel_black.jpg)
+		!important;
+	/* 	background-image:none !important;
+ */
+	background-color: #f4eadd !important;
+}
 
 #debug {
 	float: right;
@@ -14,60 +16,91 @@ body{
 	border: 0px solid black;
 	position: absolute;
 	top: 0px;
-	left:320px;
+	left: 340px;
 	width: 920px;
 	height: 580px;
 	background-image: url(../images/canvasbackground.jpg);
-
-	background-color:#12131b;
+	background-color: #12131b;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 }
 
-#canvas_fg{
-	position:fixed;
-	opacity:1.0;
+#canvas_fg {
+	position: fixed;
+	opacity: 1.0;
 	top: 0px;
-	left:320px;
+	left: 340px;
 	width: 920px;
 	height: 580px;
-	z-index:10;
-	pointer-events:none;
+	z-index: 10;
+	pointer-events: none;
 	background-image: url(../images/canvasforeground.png);
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 }
 
+.banner {
+	background-image: url(../images/bunting.png);
+	width: 62px;
+	height: 721px;
+	position: fixed;
+	top: 0px;
+	z-index:11;
+}
+
+#leftBanner {
+	left:280px;
+}
+
+#rightBanner {
+	left: 1260px;	
+}
+
 /* WebGL unsupported notification */
-#oldie{
-	position:absolute;
-	left:540px;
-	z-index:1000;
-	}
+#oldie {
+	position: absolute;
+	left: 540px;
+	z-index: 1000;
+}
 
 #fireworksShow {
 	position: fixed;
 	left: 0px;
 }
 
+#instructions{
+	width:240px;
+	margin: 10px auto;
+	font-size:14px;
+	}
+
 #showQueue {
 	position: fixed;
 	left: 0px;
-	top:0px;
+	top: 0px;
 }
 
-#showQueueBackground{
-/* 		background-color:#f4eadd;
- */		width:320px;
-		position:fixed;
-		height:100%;
-		top:0px;
-		left:0px;
+#showQueue > li:nth-child(2){
+	margin-top:350px;
 	}
+
+#showQueueBackground { /* 		background-color:#f4eadd;
+ */
+	width: 320px;
+	position: fixed;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+}
+
+#showControls {
+	position:fixed;
+	top:0px;
+	left:0px;
+	background-image: url(http://myclibe.com/images/bg_wood_panel_black.jpg);
+	z-index:2;
 	
-	#showControls{
-	margin-top:100px;
-	}
+}
 
 .fireworksQueue {
 	overflow-y: auto;
@@ -80,37 +113,34 @@ body{
 	margin: 0px;
 	padding: 0px;
 	list-style-type: none;
-	z-index:2;
+	z-index: 2;
 }
-
 
 .fireworksQueue>li {
 	padding: 0px;
 	margin: 0px;
 	float: left;
 	clear: left;
+	pointer-events: auto;
 }
 
-#magic{
-	display:block;
-	position:fixed;
-	top:15px;
-	left: 15px;
-	z-index:10;
-	}
+#july4th {
+	display: block;
+}
 
-li.queueHeader{
-	height:20px;
-	background-color:#efefec;
-	border:1px solid black;
-	width:278px;
-	}
-	
-	li.queueHeader > .ui-state-default{
-	height:16px;
+li.queueHeader {
+	height: 20px;
+	background-color: white;
+	border: 0px solid black;
+	width: 280px;
+}
+
+li.queueHeader>.ui-state-default {
+	margin-top:2px;
+	height: 16px;
 	width: 16px;
-	float:left;
-	}
+	float: left;
+}
 
 .spawnQueue {
 	position: relative;
@@ -121,41 +151,63 @@ li.queueHeader{
 	padding: 0px;
 	margin: 0px;
 	position: relative;
-	float:left;
+	float: left;
 }
 
-#below{
-	width:860px;
-	height:100%;
-	position:fixed;
-	left:320px;
-	top:580px;
-	padding:30px;
+#below {
+	width: 860px;
+	height: 100%;
+	position: fixed;
+	left: 320px;
+	top: 580px;
+	padding: 30px;
 	/* background-image:url(http://myclibe.com/images/bg_wood_panel_black.jpg);
 	 */
 }
 
-
-#clibeCopy{
-	position:absolute;
-	right:15px;
-	}
-
-#clibeCopy  a{
-	display:block;
-	position:relative;
-		z-index:10;
-	
-	}
-	
-	
-#below p{
-	margin-bottom:20px;
-	line-height:22px;
+#newShow,#startShow,#saveShow {
+	display: block;
+	margin: 0;
+	z-index: 10;
+	position: absolute;
+	top: 0px;
 }
-p{
-	font-size:18px;
-	font-weight:normal;
-	color:white;
-	text-shadow:0px 2px 3px black;
+
+#newShow {
+	left: 41px;
+}
+
+#startShow {
+	left: 139px;
+}
+
+#saveShow {
+	left: 361px;
+}
+
+#newShow:hover,#startShow:hover,#saveShow:hover,#addFirework:hover {
+	cursor: pointer;
+}
+
+#clibeCopy {
+	position: absolute;
+	right: 15px;
+}
+
+#clibeCopy  a {
+	display: block;
+	position: relative;
+	z-index: 10;
+}
+
+#below p {
+	margin-bottom: 20px;
+	line-height: 22px;
+}
+
+p {
+	font-size: 18px;
+	font-weight: normal;
+	color: white;
+	text-shadow: 0px 2px 3px black;
 }
