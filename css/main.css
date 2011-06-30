@@ -1,7 +1,9 @@
 body{
 	margin:0px;
 	padding:0px;
-	background-image: url(http://myclibe.com/images/bg_wood_panel_black.jpg) !important;
+/*	background-image: url(http://myclibe.com/images/bg_wood_panel_black.jpg) !important;*/
+	background-image:none !important;
+	background-color: #f4eadd !important;
 	}
 
 #debug {
@@ -69,9 +71,10 @@ body{
 
 #magic{
 	display:block;
-	position:relative;
+	position:fixed;
 	top:15px;
 	left: 15px;
+	z-index:10;
 	}
 
 li.queueHeader{
@@ -100,10 +103,13 @@ li.queueHeader{
 }
 
 #clibecopy{
-	width:350px;
+	width:860px;
+	height:100%;
 	position:fixed;
-	left:350px;
-	top:620px;
+	left:320px;
+	top:580px;
+	padding:30px;
+	background-image:url(http://myclibe.com/images/bg_wood_panel_black.jpg);
 }
 
 #clibecopy > p{
