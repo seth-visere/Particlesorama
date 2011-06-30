@@ -111,7 +111,7 @@ li.queueHeader{
 	top:580px;
 	padding:30px;
 	/* background-image:url(http://myclibe.com/images/bg_wood_panel_black.jpg);
-	 */z-index:10;
+	 */
 }
 
 
@@ -119,6 +119,14 @@ li.queueHeader{
 	position:absolute;
 	right:15px;
 	}
+
+#clibeCopy  a{
+	display:block;
+	position:relative;
+		z-index:10;
+	
+	}
+	
 	
 #below p{
 	margin-bottom:20px;
