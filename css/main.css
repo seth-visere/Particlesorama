@@ -24,6 +24,13 @@ body{
 	background-position: 0px 50px;
 }
 
+/* WebGL unsupported notification */
+#oldie{
+	position:absolute;
+	left:540px;
+	z-index:1000;
+	}
+
 #fireworksShow {
 	position: fixed;
 	left: 0px;
