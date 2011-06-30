@@ -3,7 +3,7 @@ var Firework = Backbone.Model.extend({
 		exploded : false,
 		delay : 0,
 		fuse : 2000,
-		velocity : 1,
+		velocity : 2,
 		randomness : 1,
 		r : 255,
 		g : 255,
