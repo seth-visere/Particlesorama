@@ -24,6 +24,20 @@ body{
 	background-position: 0px 50px;
 }
 
+#canvas_fg{
+	position:fixed;
+	opacity:1.0;
+	top: 0px;
+	left:320px;
+	width: 920px;
+	height: 580px;
+	z-index:10;
+	pointer-events:none;
+	background-image: url(../images/canvasforeground.png);
+	background-repeat: no-repeat;
+	background-position: 0px 50px;
+}
+
 /* WebGL unsupported notification */
 #oldie{
 	position:absolute;
