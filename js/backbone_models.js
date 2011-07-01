@@ -113,7 +113,7 @@ var FireworkControl = Backbone.View.extend({
 			this.gui.add(this.model, "yf", -600, 600, 1).name("Target Y");
 			this.gui.add(this.model, "zf", -100, 100, 1).name("Target Z");
 			this.gui.add(this.model, "xrings", 1, 100, 1).name("X Rings");
-			this.gui.add(this.model, "zrings", 1, 100, 1).name("Y Rings");
+			this.gui.add(this.model, "zrings", 1, 100, 1).name("Z Rings");
 			this.gui.add(this.model, "addSpawn").name("Add Spawn");
 			this.gui.add(this.model, "remove").name("Delete");
 			this.gui.add(this.model, "fire").name("Fire!");
