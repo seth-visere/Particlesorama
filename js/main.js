@@ -1,7 +1,9 @@
 var container;
-var camera, scene, renderer, particles, particle, geometry, material, materials;
+var camera, scene, renderer, particleSystem, particle, geometry, material, materials;
 var colors = [];
 var image1Values;
+
+var uniforms;
 
 $(function() {
 	if (!Detector.webgl)
@@ -49,9 +51,13 @@ var tweens = [];
 
 function startTweens() {
 	// tweens[tweens.length-1].start();
-	_.each(tweens, function(tween) {
-		tween.start();
-	});
+//	_.each(tweens, function(tween) {
+//		tween.start();
+//	});
+	new TWEEN.Tween(uniforms.t).to({value:3}, 5000).onUpdate(function(){
+		particleSystem.rotation.x = particleSystem.rotation.y = particleSystem.rotation.z = 0*Math.PI/3*uniforms.t.value;
+	}).start();
+	
 }
 
 function init() {
@@ -77,7 +83,7 @@ function init() {
 
 	}
 
-	var resolution = 4;
+	var resolution = 1;
 
 	var particles = new THREE.Geometry();
 
@@ -86,6 +92,8 @@ function init() {
 	for ( var dy = 0; dy < image1Values.height; dy += resolution) {
 		for ( var dx = 0; dx < image1Values.width; dx += resolution) {
 
+			
+			
 			offset = dy * image1Values.width * 4 + dx * 4;
 
 			var pX = dx - image1Values.width / 2, pY = image1Values.height / 2
@@ -96,6 +104,8 @@ function init() {
 			// +pZ);
 			particles.vertices.push(particle);
 
+			continue;
+			
 			var color = new THREE.Color(0xffffff);
 			color.setRGB(image1Values.data[offset] / 255,
 					image1Values.data[offset + 1] / 255,
@@ -144,13 +154,49 @@ function init() {
 		}
 	}
 
-	var pMaterial = new THREE.ParticleBasicMaterial({
-		size : resolution * 16,
-		vertexColors : true,
-		blending : THREE.AdditiveBlending
-	});
+//	var pMaterial = new THREE.ParticleBasicMaterial({
+//		size : resolution * 16,
+//		vertexColors : true,
+//		blending : THREE.AdditiveBlending
+//	});
 
-	particleSystem = new THREE.ParticleSystem(particles, pMaterial);
+	uniforms = {
+			mode : {
+				type : "i",
+				value : 0
+			},
+			t : {
+				type : "f",
+				value : 0
+			},
+			resolution : {
+				type : "f",
+				value : resolution
+			}
+		};
+	
+	uniforms.texture = {
+		type : "t",
+		value : 0,
+		texture : THREE.ImageUtils.loadTexture("images/1.png")
+	};
+	uniforms.texture2 = {
+		type : "t",
+		value : 1,
+		texture : THREE.ImageUtils.loadTexture("images/2.png")
+	};
+	
+	var shaderMaterial = new THREE.MeshShaderMaterial({
+		vertexShader : $('#vertexshader').text(),
+		fragmentShader : $('#fragmentshader').text(),
+		uniforms : uniforms,
+		attributes : {},
+		size : 10,
+		blending : THREE.AdditiveBlending,
+		wireframe : false
+	});
+	
+	particleSystem = new THREE.ParticleSystem(particles, shaderMaterial);
 
 	scene.addObject(particleSystem);
 
@@ -158,7 +204,7 @@ function init() {
 		color : 0xCC0000
 	});
 
-	var sphere = new THREE.Mesh(new THREE.Sphere(50, 16, 16), sphereMaterial);
+	var sphere = new THREE.Mesh(new THREE.SphereGeometry(50, 16, 16), sphereMaterial);
 
 	tweens.push(new TWEEN.Tween(sphereMaterial.color).to({
 		r : 1,
@@ -176,11 +222,18 @@ function init() {
 
 	// renderer = new THREE.CanvasRenderer();
 	renderer = new THREE.WebGLRenderer({
-		clearAlpha : 1
+		clearAlpha : 1,
+		antialias : true
 	});
 	renderer.setSize(container.width(), container.height());
 
 	container.html(renderer.domElement);
+	
+	gui = new DAT.GUI();
+	gui.add(uniforms.t, "value").min(0).max(3).listen().onChange(function(val){
+		particleSystem.rotation.x = particleSystem.rotation.y = particleSystem.rotation.z = Math.PI/2*val;
+		});
+	gui.add(window, "startTweens");
 }
 
 function returnToOrigin(pX, pY, pZ) {
