@@ -1,5 +1,5 @@
 var container;
-var camera, scene, renderer, particleSystem, particle, geometry, material, materials;
+var camera, scene, renderer, particleSystems, systemCount, particle, geometry, material, materials;
 var colors = [];
 var image1Values;
 
@@ -8,6 +8,8 @@ var uniforms;
 $(function() {
 	if (!Detector.webgl)
 		Detector.addGetWebGLMessage();
+	systemCount = 3;
+	particleSystems = [];
 	loadTransitionTest();
 //	loadFireworksTest();
 });
@@ -54,8 +56,11 @@ function startTweens() {
 //	_.each(tweens, function(tween) {
 //		tween.start();
 //	});
+	TWEEN.stop();
+	TWEEN.removeAll();
+	uniforms.t.value = 0;
 	new TWEEN.Tween(uniforms.t).to({value:3}, 5000).onUpdate(function(){
-		particleSystem.rotation.x = particleSystem.rotation.y = particleSystem.rotation.z = 0*Math.PI/3*uniforms.t.value;
+		rotate();
 	}).start();
 	
 }
@@ -68,7 +73,7 @@ function init() {
 			5000);
 	camera.position.x = 0;
 	camera.position.y = 0;
-	camera.position.z = 3500;
+	camera.position.z = 3200;
 
 	scene = new THREE.Scene();
 
@@ -84,8 +89,10 @@ function init() {
 	}
 
 	var resolution = 1;
-
-	var particles = new THREE.Geometry();
+	var particles = [];
+	for(i=0;i<systemCount;i++){
+		particles[i] = new THREE.Geometry();
+	}
 
 	var animationTime = 500;
 
@@ -102,7 +109,7 @@ function init() {
 			var particle = new THREE.Vertex(new THREE.Vector3(pX, pY, pZ));
 			// $("#debug").append("Pushed particle at " + pX + "," + pY + "+"
 			// +pZ);
-			particles.vertices.push(particle);
+			particles[(dx+dy)%systemCount].vertices.push(particle);
 
 			continue;
 			
@@ -196,23 +203,20 @@ function init() {
 		wireframe : false
 	});
 	
-	particleSystem = new THREE.ParticleSystem(particles, shaderMaterial);
+	for(i=0;i<systemCount;i++){
+		particleSystems[i] = new THREE.ParticleSystem(particles[i], shaderMaterial);
+		scene.addObject(particleSystems[i]);
+	}
 
-	scene.addObject(particleSystem);
 
-	var sphereMaterial = new THREE.MeshLambertMaterial({
+	var sphereMaterial = new THREE.MeshBasicMaterial({
 		color : 0xCC0000
 	});
 
-	var sphere = new THREE.Mesh(new THREE.SphereGeometry(50, 16, 16), sphereMaterial);
+	var sphere = new THREE.Mesh(new THREE.SphereGeometry(10, 16, 16), sphereMaterial);
+	
 
-	tweens.push(new TWEEN.Tween(sphereMaterial.color).to({
-		r : 1,
-		g : 0,
-		b : 1
-	}, 2000));
-
-	// scene.addObject(sphere);
+//	 scene.addObject(sphere);
 
 	var light = new THREE.PointLight(0xffffff);
 	light.position.x = 0;
@@ -222,8 +226,8 @@ function init() {
 
 	// renderer = new THREE.CanvasRenderer();
 	renderer = new THREE.WebGLRenderer({
-		clearAlpha : 1,
-		antialias : true
+		clearAlpha : 0,
+		antialias : false
 	});
 	renderer.setSize(container.width(), container.height());
 
@@ -231,8 +235,11 @@ function init() {
 	
 	gui = new DAT.GUI();
 	gui.add(uniforms.t, "value").min(0).max(3).listen().onChange(function(val){
-		particleSystem.rotation.x = particleSystem.rotation.y = particleSystem.rotation.z = Math.PI/2*val;
-		});
+		rotate();
+	});
+	gui.add(camera.position, "x").min(-1000).max(1000);
+	gui.add(camera.position, "y").min(-1000).max(1000);
+	gui.add(camera.position, "z").min(0000).max(5000);
 	gui.add(window, "startTweens");
 }
 
@@ -246,14 +253,23 @@ function returnToOrigin(pX, pY, pZ) {
 	}
 }
 
+function rotate(){
+	for(i=0;i<systemCount;i++){
+		particleSystems[i].rotation.x = particleSystems[i].rotation.y = particleSystems[i].rotation.z = (Math.pow(-1,i))*(i+1)*Math.PI/3*uniforms.t.value;
+		particleSystems[i].position.x = 100*Math.sin(2*Math.PI*uniforms.t.value/3);
+		particleSystems[i].position.y = 100*-Math.sin(2*Math.PI*uniforms.t.value/3);
+		particleSystems[i].position.z = 100*Math.sin(2*Math.PI*uniforms.t.value/3);
+	}
+}
+
 function animate() {
 
 	// camera.position.z -= 2;
 
 	TWEEN.update();
 
-	particleSystem.geometry.__dirtyVertices = true;
-	particleSystem.geometry.__dirtyColors = true;
+	//particleSystem.geometry.__dirtyVertices = true;
+	//particleSystem.geometry.__dirtyColors = true;
 	render();
 
 	requestAnimationFrame(animate);

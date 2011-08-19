@@ -51,7 +51,7 @@
 		void main()
 		{
 			//Pass the coords for the texture
-			vUv = vec2((position.x+737.0/2.0)/737.0, (position.y+270.0)/540.0);
+			vUv = vec2((position.x+736.0/2.0)/736.0, (position.y+270.0)/540.0);
 			float M_PI = 3.145192;
 			float RAD = 180.0/M_PI;
 
@@ -73,7 +73,7 @@
 				vec4 vi = vec4(position, 1.0);
 				vo = vec4(vi.x*(t-2.0)+vc.x*(3.0-t),vi.y*(t-2.0)+vc.y*(3.0-t),vi.z*(t-2.0)+vc.z*(3.0-t),1.0);
 			}
-			
+			vo = vo + vec4(position, 1.0);
 
 			//Calculate the normal
 			//Credit to http://tonfilm.blogspot.com/2007/01/calculate-normals-in-shader.html for the clever normal calculation
@@ -94,7 +94,7 @@
 		}
 
 		vec3 coneProject(vec3 vi, float s, float t, float A, float theta, float rho){
-			float x = s*737.0;
+			float x = s*736.0;
 			float y = (1.0-t)*540.0;
 
     		float R     = -sqrt(x * x + pow(y - A, 2.0));  // Radius of the circle circumscribed by vertex (vi.x, vi.y) around A on the x-y plane.
