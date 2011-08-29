@@ -4,12 +4,14 @@ var colors = [];
 var image1Values;
 
 var uniforms;
+var settings = new Object();
 
 $(function() {
 	if (!Detector.webgl)
 		Detector.addGetWebGLMessage();
 	systemCount = 3;
 	particleSystems = [];
+	settings.rotate = false;
 	loadTransitionTest();
 //	loadFireworksTest();
 });
@@ -59,7 +61,7 @@ function startTweens() {
 	TWEEN.stop();
 	TWEEN.removeAll();
 	uniforms.t.value = 0;
-	new TWEEN.Tween(uniforms.t).to({value:3}, 5000).onUpdate(function(){
+	new TWEEN.Tween(uniforms.t).to({value:3}, 5000).easing(TWEEN.Easing.Quartic.EaseInOut).onUpdate(function(){
 		rotate();
 	}).start();
 	
@@ -240,6 +242,8 @@ function init() {
 	gui.add(camera.position, "x").min(-1000).max(1000);
 	gui.add(camera.position, "y").min(-1000).max(1000);
 	gui.add(camera.position, "z").min(0000).max(5000);
+	
+	gui.add(settings, "rotate");
 	gui.add(window, "startTweens");
 }
 
@@ -254,11 +258,13 @@ function returnToOrigin(pX, pY, pZ) {
 }
 
 function rotate(){
+	if(settings.rotate){
 	for(i=0;i<systemCount;i++){
-		particleSystems[i].rotation.x = particleSystems[i].rotation.y = particleSystems[i].rotation.z = (Math.pow(-1,i))*(i+1)*Math.PI/3*uniforms.t.value;
-		particleSystems[i].position.x = 100*Math.sin(2*Math.PI*uniforms.t.value/3);
-		particleSystems[i].position.y = 100*-Math.sin(2*Math.PI*uniforms.t.value/3);
-		particleSystems[i].position.z = 100*Math.sin(2*Math.PI*uniforms.t.value/3);
+		particleSystems[i].rotation.x = particleSystems[i].rotation.y = particleSystems[i].rotation.z = (Math.pow(-1,i))*((i+1))*Math.PI*uniforms.t.value/3;
+		//particleSystems[i].position.x = 100*(Math.pow(-1,i))*Math.sin(2*Math.PI*uniforms.t.value/3);
+		//particleSystems[i].position.y = 100*(Math.pow(-1,i))*-Math.sin(6*Math.PI*uniforms.t.value/3);
+		//particleSystems[i].position.z = 100*(Math.pow(-1,i))*Math.sin(4*Math.PI*uniforms.t.value/3);
+	}
 	}
 }
 

@@ -73,7 +73,6 @@
 				vec4 vi = vec4(position, 1.0);
 				vo = vec4(vi.x*(t-2.0)+vc.x*(3.0-t),vi.y*(t-2.0)+vc.y*(3.0-t),vi.z*(t-2.0)+vc.z*(3.0-t),1.0);
 			}
-			vo = vo + vec4(position, 1.0);
 
 			//Calculate the normal
 			//Credit to http://tonfilm.blogspot.com/2007/01/calculate-normals-in-shader.html for the clever normal calculation
