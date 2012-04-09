@@ -71,7 +71,7 @@ function init() {
 
 	container = $("#canvas2_wr");
 
-	camera = new THREE.Camera(10, container.width() / container.height(), 1,
+	camera = new THREE.PerspectiveCamera(10, container.width() / container.height(), 1,
 			5000);
 	camera.position.x = 0;
 	camera.position.y = 0;
@@ -195,7 +195,7 @@ function init() {
 		texture : THREE.ImageUtils.loadTexture("images/2.png")
 	};
 	
-	var shaderMaterial = new THREE.MeshShaderMaterial({
+	var shaderMaterial = new THREE.ShaderMaterial({
 		vertexShader : $('#vertexshader').text(),
 		fragmentShader : $('#fragmentshader').text(),
 		uniforms : uniforms,
@@ -207,7 +207,7 @@ function init() {
 	
 	for(i=0;i<systemCount;i++){
 		particleSystems[i] = new THREE.ParticleSystem(particles[i], shaderMaterial);
-		scene.addObject(particleSystems[i]);
+		scene.add(particleSystems[i]);
 	}
 
 
@@ -224,7 +224,7 @@ function init() {
 	light.position.x = 0;
 	light.position.y = 0;
 	light.position.z = 1;
-	scene.addLight(light);
+	scene.add(light);
 
 	// renderer = new THREE.CanvasRenderer();
 	renderer = new THREE.WebGLRenderer({

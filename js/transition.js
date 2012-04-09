@@ -20,19 +20,26 @@ $(function() {
 	// and a scene
 	this.glrenderer = new THREE.WebGLRenderer({
 		antialias : true,
-		clearColor: 0xffffff
+		clearColor: 0x000000,
+		clearAlpha : 0
 	});
 
 	// Turn off sorting to make sure the cover is drawn first
 	// and visible underneath the pages
 	this.glrenderer.sortObjects = true;
 
-	this.camera = new THREE.Camera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+	this.camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
 	this.scene = new THREE.Scene();
+	
+	this.scene.add(this.camera);
 
 	// the camera starts at 0,0,0 so pull it back
-	this.camera.position.z = 1200;
+	this.camera.position.set(0,0,1200);
 
+	this.pointLight = new THREE.PointLight(0xffffff);
+	this.pointLight.position.set(0,0,0);
+	this.scene.add(this.pointLight);
+	
 	// start the renderer
 	this.glrenderer.setSize(WIDTH, HEIGHT);
 
@@ -44,7 +51,7 @@ $(function() {
 	aSphere.position.y = 0;
 	aSphere.position.z = 30;
 
-	this.scene.addChild(aSphere);
+	this.scene.add(aSphere);
 
 	var oSphereMat = new THREE.MeshLambertMaterial({
 		color : 0x0000cc
@@ -54,7 +61,7 @@ $(function() {
 	oSphere.position.y = 0;
 	oSphere.position.z = 0;
 
-	this.scene.addChild(oSphere);
+	this.scene.add(oSphere);
 
 	// Add back cover
 	var width = this.PAGE_WIDTH, height = this.PAGE_HEIGHT, widthsegments = 92 * 4, heightsegments = 64 * 4;
@@ -69,8 +76,8 @@ $(function() {
 
 	$(this.glrenderer.domElement).bind("mousemove", $.proxy(function(e) {
 		e.stopPropagation();
-		this.camera.position.x = 2 * ($(this.glrenderer.domElement).width() - e.layerX * 2);
-		this.camera.position.y = 2 * ($(this.glrenderer.domElement).height() - e.layerY * 2);
+//		this.camera.position.x = 2 * ($(this.glrenderer.domElement).width() - e.layerX * 2);
+//		this.camera.position.y = 2 * ($(this.glrenderer.domElement).height() - e.layerY * 2);
 	}, this));
 
 	this.dummy = {
@@ -113,22 +120,28 @@ $(function() {
 	var planeGeo = new THREE.PlaneGeometry(width, height, widthsegments, heightsegments);
 
 	// create the sphere's material
-	var shaderMaterial = new THREE.MeshShaderMaterial({
+	var shaderMaterial = new THREE.ShaderMaterial({
 		vertexShader : $('#vertexshader').text(),
 		fragmentShader : $('#fragmentshader').text(),
 		uniforms : this.uniforms,
 		attributes : {},
 		blending : THREE.AdditiveBlending,
-		wireframe : false
+		wireframe : true
+	});
+	
+	var basicMaterial = new THREE.MeshBasicMaterial({
+		color : 0xff0000,
+		wireframe : true
 	});
 
 	pagePlane = new THREE.Mesh(planeGeo, shaderMaterial);
+//	pagePlane = new THREE.Mesh(planeGeo, basicMaterial);
 	pagePlane.doubleSided = true;
 	pagePlane.transparent = true;
 	pagePlane.position.x = 0;
 	pagePlane.position.y = 0;
 	pagePlane.position.z = 0;
-	this.scene.addChild(pagePlane);
+	this.scene.add(pagePlane);
 	this.globject = pagePlane;
 
 	gui = new DAT.GUI();
@@ -139,6 +152,7 @@ $(function() {
 	this.tick = function() {
 		TWEEN.update();
 
+		
 		this.glrenderer.render(this.scene, this.camera);
 		requestAnimationFrame($.proxy(this.tick, this));
 
